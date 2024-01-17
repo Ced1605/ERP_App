@@ -12,20 +12,8 @@ const Drawer = createDrawerNavigator();
 const MainStack = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          header: ({ scene }) => <Header title={scene.route.name} />,
-        }}
-      />
-      <Stack.Screen
-        name="Orders"
-        component={OrderScreen}
-        options={{
-          header: ({ scene }) => <Header title={scene.route.name} />,
-        }}
-      />
+      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="Orders" component={OrderScreen} />
       {/* Weitere Screens hier mit dem gleichen Header */}
     </Stack.Navigator>
   );
