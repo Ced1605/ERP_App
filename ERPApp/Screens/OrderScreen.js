@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
+import OrderStyles from "../Styles/OrderStyle";
 
 const OrderScreen = () => {
   return (
