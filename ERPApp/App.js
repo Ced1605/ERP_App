@@ -4,17 +4,41 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import HomeScreen from "./Screens/HomeScreen";
 import OrderScreen from "./Screens/OrderScreen";
-import Header from "./components/Header";
+import ProductsScreen from "./Screens/ProductsScreen";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
-const MainStack = () => {
+const HomeStack = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="Orders" component={OrderScreen} />
-      {/* Weitere Screens hier mit dem gleichen Header */}
+      <Stack.Screen
+        name="StartScreen"
+        component={HomeScreen}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+};
+const OrderStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="AufträgeScreen"
+        component={OrderScreen}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+};
+const ProductsStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="ProdukteScreen"
+        component={ProductsScreen}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 };
@@ -22,9 +46,17 @@ const MainStack = () => {
 const App = () => {
   return (
     <NavigationContainer>
-      <Drawer.Navigator>
-        <Drawer.Screen name="Main" component={MainStack} />
-        {/* Weitere Drawer-Screens hier, falls erforderlich */}
+      <Drawer.Navigator
+        screenOptions={{
+          drawerActiveTintColor: "#6e1eb1",
+          drawerInactiveTintColor: "black",
+          drawerActiveBackgroundColor: "lightgray",
+          drawerInactiveBackgroundColor: "white",
+        }}
+      >
+        <Drawer.Screen name="Start" component={HomeStack} />
+        <Drawer.Screen name="Aufträge" component={OrderStack} />
+        <Drawer.Screen name="Produkte" component={ProductsStack} />
       </Drawer.Navigator>
     </NavigationContainer>
   );
