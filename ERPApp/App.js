@@ -5,6 +5,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import HomeScreen from "./Screens/HomeScreen";
 import OrderScreen from "./Screens/OrderScreen";
 import ProductsScreen from "./Screens/ProductsScreen";
+import { colors } from "./assets/color";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -48,9 +49,9 @@ const App = () => {
     <NavigationContainer>
       <Drawer.Navigator
         screenOptions={{
-          drawerActiveTintColor: "#6e1eb1",
-          drawerInactiveTintColor: "black",
-          drawerActiveBackgroundColor: "lightgray",
+          drawerActiveTintColor: colors.text,
+          drawerInactiveTintColor: colors.text,
+          drawerActiveBackgroundColor: colors.color3T,
           drawerInactiveBackgroundColor: "white",
         }}
       >
