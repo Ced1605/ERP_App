@@ -6,6 +6,7 @@ import { getCurrentDate } from "../assets/CurrentDate";
 import Icon from "react-native-vector-icons/Ionicons";
 import { colors } from "../assets/color";
 import { Colors } from "react-native/Libraries/NewAppScreen";
+import { Ionicons } from "@expo/vector-icons";
 
 const CalendarComponent = () => {
   const currentDate = getCurrentDate();
@@ -76,9 +77,9 @@ const CalendarComponent = () => {
         renderArrow={(direction) => (
           <View>
             {direction === "left" ? (
-              <Icon name="ios-arrow-back" size={30} color="#00adf5" />
+              <Ionicons name="arrow-back" size={30} color="#00adf5" />
             ) : (
-              <Icon name="ios-arrow-forward" size={30} color="#00adf5" />
+              <Ionicons name="arrow-forward" size={30} color="#00adf5" />
             )}
           </View>
         )}

@@ -1,7 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
 import { colors } from "../assets/color";
+import CheckBox from "react-native-check-box";
+
 const CurrentOrdersComponent = ({ orders }) => {
+  const [checkedItems, setCheckedItems] = useState(
+    Array(orders.length).fill(false)
+  );
+
+  const handleCheckBoxClick = (index) => {
+    const newCheckedItems = [...checkedItems];
+    newCheckedItems[index] = !newCheckedItems[index];
+    setCheckedItems(newCheckedItems);
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Aktuelle Aufträge</Text>
@@ -9,14 +21,21 @@ const CurrentOrdersComponent = ({ orders }) => {
         <FlatList
           data={orders}
           keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
+          renderItem={({ item, index }) => (
             <View style={styles.orderItem}>
-              <>
+              <View style={styles.Item}>
                 <Text style={styles.orderText}>Auftragsnummer: {item.id}</Text>
                 <Text style={styles.orderText}>Kunde: {item.customer}</Text>
                 <Text style={styles.orderText}>Produkt: {item.product}</Text>
                 <Text style={styles.orderText}>Menge: {item.quantity}</Text>
-              </>
+              </View>
+              <View>
+                <CheckBox
+                  style={styles.checkbox}
+                  onClick={() => handleCheckBoxClick(index)}
+                  isChecked={checkedItems[index]}
+                />
+              </View>
             </View>
           )}
         />
@@ -39,6 +58,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   orderItem: {
+    justifyContent: "space-between",
+    flexDirection: "row",
     backgroundColor: colors.background1,
     padding: 16,
     marginHorizontal: 5,
@@ -56,6 +77,13 @@ const styles = StyleSheet.create({
   orderText: {
     fontSize: 16,
     marginBottom: 8,
+  },
+  checkbox: {
+    alignSelf: "center",
+    marginTop: 20,
+  },
+  Item: {
+    flexDirection: "column",
   },
 });
 

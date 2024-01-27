@@ -10,6 +10,10 @@ const OrderStyles = StyleSheet.create({
     flexDirection: "row",
     margin: 10,
     backgroundColor: "#5959cf",
+    position: "relative",
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
   customButton: {
     marginRight: 15,

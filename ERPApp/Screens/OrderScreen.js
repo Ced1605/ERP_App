@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import OrderStyles from "../Styles/OrderStyle";
 import CurrentOrdersComponent from "../components/OrderComponent";
 import orders from "../Data/Order";
@@ -22,10 +22,12 @@ const OrderScreen = () => {
 
   const handleAdd = () => {
     // Logik für das Hinzufügen
+    // pop up fenster
   };
 
   const handleEdit = () => {
     // Logik für das Bearbeiten
+    // pop up fenster
   };
 
   return (
