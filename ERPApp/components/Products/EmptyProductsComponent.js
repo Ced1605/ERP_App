@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
-import { colors } from "../assets/color";
+import { colors } from "../../assets/color";
 
 const EmptyProductMonitorComponent = () => {
   const [products, setProducts] = useState([]);

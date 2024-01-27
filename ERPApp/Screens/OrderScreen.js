@@ -1,43 +1,76 @@
-import React from "react";
-import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import React, { useState } from "react";
+import { View, Text, TouchableOpacity } from "react-native";
 import OrderStyles from "../Styles/OrderStyle";
-import CurrentOrdersComponent from "../components/OrderComponent";
+import CurrentOrdersComponent from "../components/Order/OrderComponent";
+import AddOrderPopUp from "../components/Order/addOrderComponent";
+import EditOrderPopUp from "../components/Order/editOrderComponent";
 import orders from "../Data/Order";
-
-const CustomButton = ({ title, onPress, color }) => {
-  return (
-    <TouchableOpacity
-      style={[OrderStyles.customButton, { backgroundColor: color }]}
-      onPress={onPress}
-    >
-      <Text style={OrderStyles.buttonText}>{title}</Text>
-    </TouchableOpacity>
-  );
-};
+import DeleteOrderPopUp from "../components/Order/deletOrderComponenet";
 
 const OrderScreen = () => {
-  const handleDelete = () => {
-    // Logik für das Löschen
-  };
+  const [isAddModalVisible, setAddModalVisible] = useState(false);
+  const [isEditModalVisible, setEditModalVisible] = useState(false);
+  const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
   const handleAdd = () => {
-    // Logik für das Hinzufügen
-    // pop up fenster
+    setAddModalVisible(true);
   };
 
-  const handleEdit = () => {
-    // Logik für das Bearbeiten
-    // pop up fenster
+  const handleEdit = (order) => {
+    console.log("Selected Order:", order);
+    setSelectedOrder(order);
+    setEditModalVisible(true);
+  };
+  const handleDelete = (order) => {
+    console.log("Delete Order:", order);
+    setSelectedOrder(order);
+    setDeleteModalVisible(true);
+  };
+
+  const handleEditSave = () => {
+    setEditModalVisible(false);
+  };
+
+  const handleAddSave = (newOrder) => {
+    // Hier können Sie die Logik für das Speichern des neuen Auftrags implementieren
+    console.log("Speichern des neuen Auftrags", newOrder);
+    setAddModalVisible(false);
+  };
+
+  const handleDeliteConfirm = () => {
+    console.log("delet");
   };
 
   return (
     <View style={OrderStyles.Order}>
       <View style={OrderStyles.toolbox}>
-        <CustomButton title="Löschen" onPress={handleDelete} />
-        <CustomButton title="Hinzufügen" onPress={handleAdd} />
-        <CustomButton title="Bearbeiten" onPress={handleEdit} />
+        <TouchableOpacity style={OrderStyles.customButton} onPress={handleAdd}>
+          <Text style={OrderStyles.buttonText}>Hinzufügen</Text>
+        </TouchableOpacity>
       </View>
-      <CurrentOrdersComponent orders={orders} />
+      <CurrentOrdersComponent
+        orders={orders}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+      />
+
+      <AddOrderPopUp
+        isVisible={isAddModalVisible}
+        onClose={() => setAddModalVisible(false)}
+        onSave={handleAddSave}
+      />
+      <EditOrderPopUp
+        isVisible={isEditModalVisible}
+        onClose={() => setEditModalVisible(false)}
+        onSave={handleEditSave}
+        orderToEdit={selectedOrder}
+      />
+      <DeleteOrderPopUp
+        isVisible={isDeleteModalVisible}
+        onClose={() => setDeleteModalVisible(false)}
+        orderToDelete={selectedOrder}
+      />
     </View>
   );
 };

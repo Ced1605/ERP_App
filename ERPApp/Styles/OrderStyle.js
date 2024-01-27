@@ -8,7 +8,6 @@ const OrderStyles = StyleSheet.create({
   },
   toolbox: {
     flexDirection: "row",
-    margin: 10,
     backgroundColor: "#5959cf",
     position: "relative",
     bottom: 0,

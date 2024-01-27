@@ -2,8 +2,8 @@ import React, { useLayoutEffect, useState, useEffect, useRef } from "react";
 import { View, Text, FlatList, ScrollView } from "react-native";
 import HomeStyles from "../Styles/HomeStyle";
 import CalendarComponent from "../components/CalenderComponent";
-import CurrentOrdersComponent from "../components/OrderComponent";
-import EmptyProductMonitorComponent from "../components/EmptyProductsComponent";
+import EmptyProductMonitorComponent from "../components/Products/EmptyProductsComponent";
+import HomeOrdersComponent from "../components/Order/HomeOrderComponent";
 import orders from "../Data/Order";
 
 const HomeScreen = () => {
@@ -27,7 +27,7 @@ const HomeScreen = () => {
             <View style={HomeStyles.row}>
               <View style={HomeStyles.item}>
                 <ScrollView style={HomeStyles.scrollView}>
-                  <CurrentOrdersComponent orders={orders} />
+                  <HomeOrdersComponent orders={orders} />
                 </ScrollView>
               </View>
               <View style={HomeStyles.item}>

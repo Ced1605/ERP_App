@@ -1,9 +1,16 @@
 import React, { useState } from "react";
-import { View, Text, FlatList, StyleSheet } from "react-native";
-import { colors } from "../assets/color";
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
+import { colors } from "../../assets/color";
 import CheckBox from "react-native-check-box";
+import Icon from "react-native-vector-icons/FontAwesome";
 
-const CurrentOrdersComponent = ({ orders }) => {
+const CurrentOrdersComponent = ({ orders, onEdit, onDelete }) => {
   const [checkedItems, setCheckedItems] = useState(
     Array(orders.length).fill(false)
   );
@@ -12,6 +19,14 @@ const CurrentOrdersComponent = ({ orders }) => {
     const newCheckedItems = [...checkedItems];
     newCheckedItems[index] = !newCheckedItems[index];
     setCheckedItems(newCheckedItems);
+  };
+
+  const handleEdit = (index) => {
+    onEdit(orders[index].id);
+  };
+
+  const handleDelet = (index) => {
+    onDelete(orders[index].id);
   };
 
   return (
@@ -29,12 +44,28 @@ const CurrentOrdersComponent = ({ orders }) => {
                 <Text style={styles.orderText}>Produkt: {item.product}</Text>
                 <Text style={styles.orderText}>Menge: {item.quantity}</Text>
               </View>
-              <View>
+              <View style={styles.iconsContainer}>
                 <CheckBox
-                  style={styles.checkbox}
+                  style={[styles.checkbox, { height: 30, width: 30 }]}
                   onClick={() => handleCheckBoxClick(index)}
                   isChecked={checkedItems[index]}
                 />
+                <TouchableOpacity onPress={() => handleEdit(index)}>
+                  <Icon
+                    style={styles.icon}
+                    name="edit"
+                    size={25}
+                    color="black "
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => handleDelet(index)}>
+                  <Icon
+                    style={[styles.icon, { marginRight: 4 }]}
+                    name="trash"
+                    size={25}
+                    color="black"
+                  />
+                </TouchableOpacity>
               </View>
             </View>
           )}
@@ -79,11 +110,17 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   checkbox: {
-    alignSelf: "center",
     marginTop: 20,
   },
   Item: {
     flexDirection: "column",
+  },
+  icon: {
+    marginTop: 5,
+  },
+  iconsContainer: {
+    flexDirection: "colum",
+    alignItems: "center",
   },
 });
 
