@@ -4,7 +4,7 @@ import HomeStyles from "../Styles/HomeStyle";
 import CalendarComponent from "../components/CalenderComponent";
 import EmptyProductMonitorComponent from "../components/Products/EmptyProductsComponent";
 import HomeOrdersComponent from "../components/Order/HomeOrderComponent";
-import orders from "../Data/Order";
+import orders from "../Data/OrderData";
 
 const HomeScreen = () => {
   return (

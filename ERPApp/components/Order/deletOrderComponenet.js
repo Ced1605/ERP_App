@@ -22,7 +22,7 @@ const DeleteOrderPopUp = ({ isVisible, onClose, onSave, orderToDelete }) => {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.button}
-              onPress={console.log("Confnfirmt Delet order ", id)}
+              onPress={() => console.log("Confnfirmt Delet order ", id)}
             >
               <Text style={styles.buttonText}>Löschen</Text>
             </TouchableOpacity>

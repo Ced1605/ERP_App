@@ -2,12 +2,7 @@ import React from "react";
 import { View, Text, Modal, TouchableOpacity, StyleSheet } from "react-native";
 import { colors } from "../../assets/color";
 
-const DeleteProductPopUp = ({
-  isVisible,
-  onClose,
-  onSave,
-  productToDelete,
-}) => {
+const DeleteProductPopUp = ({ isVisible, onClose, productToDelete }) => {
   const id = productToDelete;
 
   return (
@@ -27,7 +22,10 @@ const DeleteProductPopUp = ({
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.button}
-              onPress={console.log("Confnfirmt Delet Product ", id)}
+              onPress={() => {
+                console.log("Confirm Delete Product", id);
+                onClose();
+              }}
             >
               <Text style={styles.buttonText}>Löschen</Text>
             </TouchableOpacity>

@@ -1,48 +1,61 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
   FlatList,
   StyleSheet,
   TouchableOpacity,
+  TextInput,
 } from "react-native";
 import { colors } from "../../assets/color";
-import CheckBox from "react-native-check-box";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-const ProductComponent = ({ products, onEdit, onDelete }) => {
-  const handleEdit = (index) => {
-    onEdit(products[index].id);
+const ProductComponent = ({ products, onEdit, onDelete, isSearchVisible }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState(products);
+
+  useEffect(() => {
+    // Filter products based on the search term
+    const filtered = products.filter(
+      (item) =>
+        item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.type.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredProducts(filtered);
+  }, [searchTerm, products]);
+
+  const handleEdit = (id) => {
+    onEdit(id);
   };
 
-  const handleDelet = (index) => {
-    onDelete(products[index].id);
+  const handleDelete = (id) => {
+    onDelete(id);
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Aktuelle Aufträge</Text>
       <View style={styles.listContainer}>
         <FlatList
-          data={products}
+          data={filteredProducts}
           keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item, index }) => (
+          renderItem={({ item }) => (
             <View style={styles.productItem}>
-              <View style={styles.Item}>
+              <View style={styles.Items}>
                 <Text style={styles.productText}>Produktnummer: {item.id}</Text>
                 <Text style={styles.productText}>Name: {item.name}</Text>
                 <Text style={styles.productText}>Menge: {item.quantity}</Text>
+                <Text style={styles.productText}>Type: {item.type}</Text>
               </View>
               <View style={styles.iconsContainer}>
-                <TouchableOpacity onPress={() => handleEdit(index)}>
+                <TouchableOpacity onPress={() => handleEdit(item.id)}>
                   <Icon
                     style={styles.icon}
                     name="edit"
                     size={25}
-                    color="black "
+                    color="black"
                   />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => handleDelet(index)}>
+                <TouchableOpacity onPress={() => handleDelete(item.id)}>
                   <Icon
                     style={[styles.icon, { marginRight: 4 }]}
                     name="trash"
@@ -96,14 +109,14 @@ const styles = StyleSheet.create({
   checkbox: {
     marginTop: 20,
   },
-  Item: {
+  Items: {
     flexDirection: "column",
   },
   icon: {
     marginTop: 5,
   },
   iconsContainer: {
-    flexDirection: "colum",
+    flexDirection: "column",
     alignItems: "center",
   },
 });

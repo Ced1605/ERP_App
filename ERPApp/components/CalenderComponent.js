@@ -38,7 +38,7 @@ const CalendarComponent = () => {
           selectedDayTextColor: colors.text,
           todayTextColor: colors.color3,
           dayTextColor: colors.text,
-          textDisabledColor: "#d9e1e8",
+          textDisabledColor: "#949aa0",
           dotColor: colors.color3,
           selectedDotColor: colors.white,
           arrowColor: colors.color2,

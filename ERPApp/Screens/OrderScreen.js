@@ -4,7 +4,7 @@ import OrderStyles from "../Styles/OrderStyle";
 import CurrentOrdersComponent from "../components/Order/OrderComponent";
 import AddOrderPopUp from "../components/Order/addOrderComponent";
 import EditOrderPopUp from "../components/Order/editOrderComponent";
-import orders from "../Data/Order";
+import orders from "../Data/OrderData";
 import DeleteOrderPopUp from "../components/Order/deletOrderComponenet";
 
 const OrderScreen = () => {
