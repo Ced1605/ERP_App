@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
-import { colors } from "../../assets/color";
+import colors from "../../assets/color";
 
 const EmptyProductMonitorComponent = () => {
   const [products, setProducts] = useState([]);
@@ -72,13 +72,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 16,
+    color: colors.text,
   },
   productItem: {
-    backgroundColor: colors.background1,
+    backgroundColor: colors.background3,
     padding: 16,
     marginBottom: 16,
     borderRadius: 8,
-    shadowColor: "#000",
+    shadowColor: colors.shadow,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -90,6 +91,7 @@ const styles = StyleSheet.create({
   productText: {
     fontSize: 16,
     marginBottom: 8,
+    color: colors.text,
   },
 });
 

@@ -4,8 +4,7 @@ import { Calendar } from "react-native-calendars";
 import Modal from "react-native-modal";
 import { getCurrentDate } from "../assets/CurrentDate";
 import Icon from "react-native-vector-icons/Ionicons";
-import { colors } from "../assets/color";
-import { Colors } from "react-native/Libraries/NewAppScreen";
+import colors from "../assets/color";
 import { Ionicons } from "@expo/vector-icons";
 
 const CalendarComponent = () => {
@@ -33,7 +32,7 @@ const CalendarComponent = () => {
         theme={{
           backgroundColor: colors.background1,
           calendarBackground: colors.background1,
-          textSectionTitleColor: Colors.color3,
+          textSectionTitleColor: colors.color3,
           selectedDayBackgroundColor: colors.color3,
           selectedDayTextColor: colors.text,
           todayTextColor: colors.color3,

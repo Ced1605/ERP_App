@@ -16,7 +16,7 @@ import UserSettingsScreen from "./Screens/SettingScreens/UserSettingsScreen";
 import InterfaceSettingsScreen from "./Screens/SettingScreens/InterfaceSettingsScreen";
 import NotificationSettingsScreen from "./Screens/SettingScreens/NotificationSettingsScreen";
 //data
-import { colors } from "./assets/color";
+import colors from "./assets/color";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -68,7 +68,7 @@ const SettingsStack = () => {
         component={UserSettingsScreen}
         options={{
           headerStyle: {
-            backgroundColor: colors.background2,
+            backgroundColor: colors.background1,
           },
         }}
       />
@@ -77,7 +77,7 @@ const SettingsStack = () => {
         component={InterfaceSettingsScreen}
         options={{
           headerStyle: {
-            backgroundColor: colors.background2,
+            backgroundColor: colors.background1,
           },
         }}
       />
@@ -86,7 +86,7 @@ const SettingsStack = () => {
         component={NotificationSettingsScreen}
         options={{
           headerStyle: {
-            backgroundColor: colors.background2,
+            backgroundColor: colors.background1,
           },
         }}
       />
@@ -103,13 +103,14 @@ const App = () => {
           drawerActiveTintColor: colors.text,
           drawerInactiveTintColor: colors.text,
           drawerActiveBackgroundColor: colors.color3T,
-          drawerInactiveBackgroundColor: "white",
+          drawerInactiveBackgroundColor: colors.background1,
           marginTop: 0,
           borderTopWidth: 0,
         }}
         drawerStyle={{
           marginTop: 0,
           borderTopWidth: 0,
+          backgroundColor: colors.background1,
         }}
       >
         <Drawer.Screen
@@ -117,7 +118,7 @@ const App = () => {
           component={HomeStack}
           options={{
             drawerIcon: (config) => (
-              <Icon size={25} color={"black"} name={"home-outline"} />
+              <Icon size={25} color={colors.black} name={"home-outline"} />
             ),
           }}
         />
@@ -128,7 +129,7 @@ const App = () => {
             drawerIcon: (config) => (
               <MaterialIcon
                 size={25}
-                color={"black"}
+                color={colors.black}
                 name={"clipboard-text-outline"}
               />
             ),
@@ -139,7 +140,7 @@ const App = () => {
           component={ProductsStack}
           options={{
             drawerIcon: (config) => (
-              <Icon size={25} color={"black"} name={"cube-outline"} />
+              <Icon size={25} color={colors.black} name={"cube-outline"} />
             ),
           }}
         />
@@ -148,7 +149,7 @@ const App = () => {
           component={SettingsStack}
           options={{
             drawerIcon: (config) => (
-              <Icon size={25} color={"black"} name={"settings-outline"} />
+              <Icon size={25} color={colors.black} name={"settings-outline"} />
             ),
           }}
         />

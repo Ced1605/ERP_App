@@ -1,7 +1,7 @@
 import React, { useLayoutEffect, useState, useRef } from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
 import { LineChart } from "react-native-chart-kit";
-import { colors } from "../assets/color";
+import colors from "../assets/color";
 
 const ChartComponent = ({ data, labels, chartRef }) => {
   const [chartHeight, setChartHeight] = useState(0);

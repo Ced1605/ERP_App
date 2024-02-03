@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, TextInput } from "react-native";
 import ProductStyles from "../Styles/ProductStyel";
 import ProductComponent from "../components/Products/productComponent";
-import FilterDropdown from "../components/Products/filterproductComponent";
 import products from "../Data/ProductData";
 import DeleteProductPopUp from "../components/Products/deleteProductComponenet";
 import EditProductPopUp from "../components/Products/editeProductComponent";
@@ -10,60 +9,48 @@ import AddProductPopUp from "../components/Products/addProductComponet";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import ComIcon from "react-native-vector-icons/MaterialCommunityIcons";
 
-const typeOptions = [
-  { label: "Food", value: "Food" },
-  { label: "Wood", value: "Wood" },
-  { label: "Paper", value: "Paper" },
-];
-
 const ProductsScreen = () => {
   const [isAddModalVisible, setAddModalVisible] = useState(false);
   const [isEditModalVisible, setEditModalVisible] = useState(false);
   const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isSearchVisible, setSearchVisible] = useState(false);
-  const [isFilterVisible, setFilterVisible] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedType, setSelectedType] = useState("");
   const [filteredProducts, setFilteredProducts] = useState(products);
 
+  //filter
   const toggleSearch = () => {
     setSearchVisible(!isSearchVisible);
   };
-
-  const toggleFilter = () => {
-    setFilterVisible(!isFilterVisible);
-  };
-
-  const handleDropdownChange = (value) => {
-    setSelectedType(value);
-    filterProducts(searchTerm, value);
-  };
-
-  const filterProducts = (name, type) => {
+  useEffect(() => {
     const filtered = products.filter(
       (item) =>
-        item.name.toLowerCase().includes(name.toLowerCase()) &&
-        (type === "" || item.type.toLowerCase().includes(type.toLowerCase()))
+        item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.id.toString().includes(searchTerm) ||
+        item.type.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredProducts(filtered);
+  }, [searchTerm, products]);
+
+  const toggleFilter = () => {
+    console.log("Toggel Filter");
   };
-
-  useEffect(() => {
-    filterProducts(searchTerm, selectedType);
-  }, [searchTerm, selectedType]);
-
+  // sort
+  const toggleSort = () => {
+    console.log("Toggel Sort ");
+  };
+  // handel Tools
   const handleAdd = () => {
     setAddModalVisible(true);
   };
 
-  const handleEdit = (order) => {
-    setSelectedOrder(order);
+  const handleEdit = (product) => {
+    setSelectedOrder(product);
     setEditModalVisible(true);
   };
 
-  const handleDelete = (order) => {
-    setSelectedOrder(order);
+  const handleDelete = (product) => {
+    setSelectedOrder(product);
     setDeleteModalVisible(true);
   };
 
@@ -98,7 +85,10 @@ const ProductsScreen = () => {
           >
             <Icon name="search" color={"white"} size={25} />
           </TouchableOpacity>
-          <TouchableOpacity style={ProductStyles.customButton} onPress={null}>
+          <TouchableOpacity
+            style={ProductStyles.customButton}
+            onPress={toggleSort}
+          >
             <ComIcon name="sort-ascending" color={"white"} size={25} />
           </TouchableOpacity>
           <TouchableOpacity
@@ -116,18 +106,10 @@ const ProductsScreen = () => {
           onChangeText={(text) => setSearchTerm(text)}
         />
       )}
-      {isFilterVisible && (
-        <FilterDropdown
-          selectedValue={selectedType}
-          onValueChange={handleDropdownChange}
-          filteritems={typeOptions}
-        />
-      )}
       <ProductComponent
         products={filteredProducts}
         onEdit={handleEdit}
         onDelete={handleDelete}
-        isSearchVisible={isSearchVisible}
       />
 
       <AddProductPopUp

@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Modal, TouchableOpacity, StyleSheet } from "react-native";
-import { colors } from "../../assets/color";
+import colors from "../../assets/color";
 
 const DeleteOrderPopUp = ({ isVisible, onClose, onSave, orderToDelete }) => {
   const id = orderToDelete;

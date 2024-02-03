@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Modal, TouchableOpacity, StyleSheet } from "react-native";
-import { colors } from "../../assets/color";
+import colors from "../../assets/color";
 
 const EditOrderPopUp = ({ isVisible, onClose, onSave, orderToEdit }) => {
   const id = orderToEdit;

@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import { colors } from "../../assets/color";
+import colors from "../../assets/color";
 
 const AddOrderPopUp = ({ isVisible, onClose, onSave }) => {
   const [id, setId] = useState("");

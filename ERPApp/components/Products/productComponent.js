@@ -7,22 +7,15 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import { colors } from "../../assets/color";
+import colors from "../../assets/color";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-const ProductComponent = ({ products, onEdit, onDelete, isSearchVisible }) => {
-  const [searchTerm, setSearchTerm] = useState("");
+const ProductComponent = ({ products, onEdit, onDelete }) => {
   const [filteredProducts, setFilteredProducts] = useState(products);
 
   useEffect(() => {
-    // Filter products based on the search term
-    const filtered = products.filter(
-      (item) =>
-        item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.type.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredProducts(filtered);
-  }, [searchTerm, products]);
+    setFilteredProducts(products);
+  }, [products]);
 
   const handleEdit = (id) => {
     onEdit(id);
@@ -52,7 +45,7 @@ const ProductComponent = ({ products, onEdit, onDelete, isSearchVisible }) => {
                     style={styles.icon}
                     name="edit"
                     size={25}
-                    color="black"
+                    color={colors.black}
                   />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => handleDelete(item.id)}>
@@ -60,7 +53,7 @@ const ProductComponent = ({ products, onEdit, onDelete, isSearchVisible }) => {
                     style={[styles.icon, { marginRight: 4 }]}
                     name="trash"
                     size={25}
-                    color="black"
+                    color={colors.black}
                   />
                 </TouchableOpacity>
               </View>
@@ -81,6 +74,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 16,
+    backgroundColor: colors.background1,
   },
   listContainer: {
     flex: 1,
@@ -88,12 +82,12 @@ const styles = StyleSheet.create({
   productItem: {
     justifyContent: "space-between",
     flexDirection: "row",
-    backgroundColor: colors.background1,
+    backgroundColor: colors.background3,
     padding: 16,
     marginHorizontal: 5,
     marginVertical: 8,
     borderRadius: 8,
-    shadowColor: "#000",
+    shadowColor: colors.shadow,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -105,6 +99,7 @@ const styles = StyleSheet.create({
   productText: {
     fontSize: 16,
     marginBottom: 8,
+    color: colors.text,
   },
   checkbox: {
     marginTop: 20,

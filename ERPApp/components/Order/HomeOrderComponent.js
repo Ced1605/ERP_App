@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
-import { colors } from "../../assets/color";
+import colors from "../../assets/color";
 import CheckBox from "react-native-check-box";
 
 const HomeOrdersComponent = ({ orders }) => {
@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 16,
+    color: colors.text,
   },
   listContainer: {
     flex: 1,
@@ -60,12 +61,12 @@ const styles = StyleSheet.create({
   orderItem: {
     justifyContent: "space-between",
     flexDirection: "row",
-    backgroundColor: colors.background1,
+    backgroundColor: colors.background3,
     padding: 16,
     marginHorizontal: 5,
     marginVertical: 8,
     borderRadius: 8,
-    shadowColor: "#000",
+    shadowColor: colors.shadow,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -77,6 +78,7 @@ const styles = StyleSheet.create({
   orderText: {
     fontSize: 16,
     marginBottom: 8,
+    color: colors.text,
   },
   checkbox: {
     alignSelf: "center",

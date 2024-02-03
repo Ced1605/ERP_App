@@ -1,13 +1,14 @@
 import { StyleSheet } from "react-native";
-import { colors } from "../assets/color";
+import colors from "../assets/color";
 
 const ProductsStyles = StyleSheet.create({
   Order: {
     flex: 1,
+    backgroundColor: colors.background1,
   },
   toolbox: {
     flexDirection: "row",
-    backgroundColor: "#5959cf",
+    backgroundColor: colors.color2,
     position: "relative",
     bottom: 0,
     left: 0,
@@ -22,7 +23,7 @@ const ProductsStyles = StyleSheet.create({
     flexDirection: "row",
   },
   buttonText: {
-    color: "#fff",
+    color: colors.text,
     fontSize: 14,
   },
   searchInput: {

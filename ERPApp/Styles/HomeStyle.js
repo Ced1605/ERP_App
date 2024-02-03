@@ -1,7 +1,7 @@
 // HomeStyle.js
 
 import { StyleSheet, Dimensions } from "react-native";
-import { colors } from "../assets/color";
+import colors from "../assets/color";
 
 let windowWidth = Dimensions.get("window").width;
 let windowHight = Dimensions.get("window").height;
@@ -9,7 +9,7 @@ let windowHight = Dimensions.get("window").height;
 const HomeStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background1,
+    backgroundColor: colors.background2,
   },
   patternContainer: {
     padding: 5,
@@ -25,9 +25,7 @@ const HomeStyles = StyleSheet.create({
     width: windowWidth > 600 ? windowWidth / 2 - 20 : windowWidth - 20,
     height: windowHight / 2 - 50,
     borderRadius: 15,
-    borderWidth: 1,
-    borderColor: colors.bordercolor2,
-    backgroundColor: colors.background2,
+    backgroundColor: colors.background1,
     margin: 5,
     padding: 5,
   },
@@ -42,9 +40,7 @@ const HomeStyles = StyleSheet.create({
     width: windowWidth > 600 ? windowWidth / 2 - 20 : windowWidth - 20,
     height: windowHight > 940 || windowWidth > 600 ? windowHight / 2 - 50 : 450,
     borderRadius: 15,
-    borderWidth: 1,
-    borderColor: colors.bordercolor2,
-    backgroundColor: colors.background2,
+    backgroundColor: colors.background1,
     margin: 5,
   },
   itemProducts: {
@@ -52,9 +48,7 @@ const HomeStyles = StyleSheet.create({
     width: windowWidth > 600 ? windowWidth / 2 - 20 : windowWidth - 20,
     height: windowHight > 940 || windowWidth > 600 ? windowHight / 2 - 50 : 450,
     borderRadius: 15,
-    borderWidth: 1,
-    borderColor: colors.bordercolor2,
-    backgroundColor: colors.background2,
+    backgroundColor: colors.background1,
     margin: 5,
   },
 });
