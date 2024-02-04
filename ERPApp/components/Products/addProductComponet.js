@@ -42,24 +42,28 @@ const AddProductPopUp = ({ isVisible, onClose, onSave }) => {
           <TextInput
             style={styles.input}
             placeholder="id"
+            placeholderTextColor={colors.text}
             value={id}
             onChangeText={(text) => setId(text)}
           />
           <TextInput
             style={styles.input}
             placeholder="Customer"
+            placeholderTextColor={colors.text}
             value={customer}
             onChangeText={(text) => setCustomer(text)}
           />
           <TextInput
             style={styles.input}
             placeholder="Product"
+            placeholderTextColor={colors.text}
             value={product}
             onChangeText={(text) => setProduct(text)}
           />
           <TextInput
             style={styles.input}
             placeholder="Mänge"
+            placeholderTextColor={colors.text}
             value={quantity}
             onChangeText={(text) => setQuantity(text)}
           />
@@ -85,7 +89,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.76)", //scren darknes pop up
   },
   modalContent: {
-    backgroundColor: "white",
+    backgroundColor: colors.background3,
     padding: 20,
     borderRadius: 10,
     elevation: 5,
@@ -94,6 +98,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 10,
+    color: colors.text,
   },
   input: {
     height: 40,
@@ -101,6 +106,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 20,
     paddingHorizontal: 10,
+    color: colors.text,
   },
   buttonContainer: {
     flexDirection: "row",

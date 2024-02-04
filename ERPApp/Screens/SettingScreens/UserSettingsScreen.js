@@ -9,7 +9,7 @@ const UserSettingsScreen = () => {
   var picture = user.profilePicture;
 
   return (
-    <View style={{ backgroundColor: colors.background1 }}>
+    <View style={{ flex: 1, backgroundColor: colors.background1 }}>
       <View style={styles.headerContainer}>
         <Image source={picture} style={styles.image} />
         <TouchableOpacity onPress={null}>

@@ -5,6 +5,7 @@ import colors from "../assets/color";
 const OrderStyles = StyleSheet.create({
   Order: {
     flex: 1,
+    backgroundColor: colors.background1,
   },
   toolbox: {
     flexDirection: "row",

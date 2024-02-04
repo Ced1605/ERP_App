@@ -8,6 +8,7 @@ import EditProductPopUp from "../components/Products/editeProductComponent";
 import AddProductPopUp from "../components/Products/addProductComponet";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import ComIcon from "react-native-vector-icons/MaterialCommunityIcons";
+import colors from "../assets/color";
 
 const ProductsScreen = () => {
   const [isAddModalVisible, setAddModalVisible] = useState(false);
@@ -103,6 +104,7 @@ const ProductsScreen = () => {
         <TextInput
           style={ProductStyles.searchInput}
           placeholder="Suchen..."
+          placeholderTextColor={colors.text}
           onChangeText={(text) => setSearchTerm(text)}
         />
       )}

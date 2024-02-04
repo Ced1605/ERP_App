@@ -134,8 +134,6 @@ const styles = StyleSheet.create({
   },
   checkbox: {
     marginTop: 20,
-    uncheckedColor: colors.text,
-    checkedColor: colors.text,
   },
   Item: {
     flexDirection: "column",

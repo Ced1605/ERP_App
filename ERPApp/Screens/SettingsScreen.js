@@ -2,6 +2,7 @@ import React, { createContext, useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 //import Icon from "react-native-vector-icons/FontAwesome";
 import Icon from "react-native-vector-icons/AntDesign";
+import colors from "../assets/color";
 
 const SettingsScreen = ({ navigation }) => {
   const userSettings = () => {
@@ -17,18 +18,18 @@ const SettingsScreen = ({ navigation }) => {
   };
 
   return (
-    <View>
+    <View style={{ flex: 1, backgroundColor: colors.background1 }}>
       <View style={settingsStyels.container}>
         <TouchableOpacity
           style={settingsStyels.containeritems}
           onPress={userSettings}
         >
           <View style={{ flexDirection: "row" }}>
-            <Icon name="user" size={25} color="black" />
+            <Icon name="user" size={25} color={colors.black} />
             <Text style={settingsStyels.itemtext}>Benutzer</Text>
           </View>
           <View>
-            <Icon name="right" size={25} color="black" />
+            <Icon name="right" size={25} color={colors.black} />
           </View>
         </TouchableOpacity>
         <TouchableOpacity
@@ -36,12 +37,12 @@ const SettingsScreen = ({ navigation }) => {
           onPress={interfaceSettings}
         >
           <View style={{ flexDirection: "row" }}>
-            <Icon name="tool" size={25} color="black" />
+            <Icon name="tool" size={25} color={colors.black} />
             <Text style={settingsStyels.itemtext}>Oberfläche</Text>
           </View>
 
           <View>
-            <Icon name="right" size={25} color="black" />
+            <Icon name="right" size={25} color={colors.black} />
           </View>
         </TouchableOpacity>
         <TouchableOpacity
@@ -49,11 +50,11 @@ const SettingsScreen = ({ navigation }) => {
           onPress={notificationSettings}
         >
           <View style={{ flexDirection: "row" }}>
-            <Icon name="bells" size={25} color="black" />
+            <Icon name="bells" size={25} color={colors.black} />
             <Text style={settingsStyels.itemtext}>Benachrichtigungen</Text>
           </View>
           <View>
-            <Icon name="right" size={25} color="black" />
+            <Icon name="right" size={25} color={colors.black} />
           </View>
         </TouchableOpacity>
       </View>
@@ -71,11 +72,12 @@ const settingsStyels = StyleSheet.create({
     paddingBottom: 14,
     justifyContent: "space-between",
     borderBottomWidth: 1,
-    borderBottomColor: "black",
+    borderBottomColor: colors.text,
   },
   itemtext: {
     fontSize: 18,
     marginLeft: 10,
+    color: colors.text,
   },
 });
 

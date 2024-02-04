@@ -18,7 +18,7 @@ const CustomDrawerContent = (props) => {
   return (
     <DrawerContentScrollView
       {...props}
-      contentContainerStyle={{ backgroundColor: colors.color3 }}
+      contentContainerStyle={{ backgroundColor: colors.color2 }}
     >
       <View style={styles.drawerHeader}>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -54,7 +54,7 @@ const styles = {
     paddingTop: 40,
     paddingLeft: 16,
     paddingBottom: 20,
-    backgroundColor: colors.color3,
+    backgroundColor: colors.color2,
   },
   profileImage: {
     width: 50,
@@ -72,7 +72,7 @@ const styles = {
     color: colors.text,
   },
   DrawerItem: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.background1,
   },
   logoutContainer: {
     borderTopWidth: 1,

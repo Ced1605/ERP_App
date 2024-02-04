@@ -8,6 +8,7 @@ import orders from "../Data/OrderData";
 import DeleteOrderPopUp from "../components/Order/deletOrderComponenet";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import ComIcon from "react-native-vector-icons/MaterialCommunityIcons";
+import colors from "../assets/color";
 
 const OrderScreen = () => {
   const [isAddModalVisible, setAddModalVisible] = useState(false);
@@ -104,6 +105,7 @@ const OrderScreen = () => {
         <TextInput
           style={OrderStyles.searchInput}
           placeholder="Suchen..."
+          placeholderTextColor={colors.text}
           onChangeText={(text) => setSearchTerm(text)}
         />
       )}

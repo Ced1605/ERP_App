@@ -1,25 +1,40 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Text, View, Image, StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import Icon from "react-native-vector-icons/Ionicons";
 import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons";
+import FeatherIcon from "react-native-vector-icons/Feather";
 import CustomDrawerContent from "./components/CustomDrawerComponet";
 //Screens
 import HomeScreen from "./Screens/HomeScreen";
 import OrderScreen from "./Screens/OrderScreen";
 import ProductsScreen from "./Screens/ProductsScreen";
 import SettingsScreen from "./Screens/SettingsScreen";
+import AllUserSettingsScreen from "./Screens/AllUserScreen";
 //Settig Screens
 import UserSettingsScreen from "./Screens/SettingScreens/UserSettingsScreen";
 import InterfaceSettingsScreen from "./Screens/SettingScreens/InterfaceSettingsScreen";
 import NotificationSettingsScreen from "./Screens/SettingScreens/NotificationSettingsScreen";
 //data
 import colors from "./assets/color";
+import CurrenUserData from "./Data/LoginUserData";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
+const user = CurrenUserData[0];
+
+const MyTheme = {
+  colors: {
+    primary: colors.color1,
+    card: colors.header,
+    text: colors.text,
+    border: colors.bordercolor,
+    notification: "rgb(255, 69, 58)",
+    color: colors.text,
+  },
+};
 
 const HomeStack = () => {
   return (
@@ -54,10 +69,24 @@ const ProductsStack = () => {
     </Stack.Navigator>
   );
 };
+const MitarbeiterStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="AllUserSettingsScreen"
+        component={AllUserSettingsScreen}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+};
 
 const SettingsStack = () => {
   return (
-    <Stack.Navigator initialRouteName="Settings">
+    <Stack.Navigator
+      initialRouteName="Settings"
+      screenOptions={{ headerTintColor: colors.color1 }}
+    >
       <Stack.Screen
         name="SettingsScreen"
         component={SettingsScreen}
@@ -96,14 +125,14 @@ const SettingsStack = () => {
 
 const App = () => {
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={MyTheme}>
       <Drawer.Navigator
         drawerContent={(props) => <CustomDrawerContent {...props} />}
         screenOptions={{
           drawerActiveTintColor: colors.text,
           drawerInactiveTintColor: colors.text,
           drawerActiveBackgroundColor: colors.color3T,
-          drawerInactiveBackgroundColor: colors.background1,
+          headerTintColor: colors.text,
           marginTop: 0,
           borderTopWidth: 0,
         }}
@@ -144,6 +173,17 @@ const App = () => {
             ),
           }}
         />
+        {user.role === "admin" && (
+          <Drawer.Screen
+            name="Mitarbeiter"
+            component={MitarbeiterStack}
+            options={{
+              drawerIcon: (config) => (
+                <FeatherIcon size={25} color={colors.black} name={"users"} />
+              ),
+            }}
+          />
+        )}
         <Drawer.Screen
           name="Einstellungen"
           component={SettingsStack}
