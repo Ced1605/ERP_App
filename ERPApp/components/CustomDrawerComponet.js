@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import {
   DrawerContentScrollView,
   DrawerItemList,
@@ -8,19 +8,20 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import colors from "../assets/color";
 import CurrenUserData from "../Data/LoginUserData";
 
-const CustomDrawerContent = ({ navigation, handleLogout, ...props }) => {
+const CustomDrawerContent = ({ navigation, handleLogout, ...rest }) => {
   const user = CurrenUserData[0];
-  var picture = user.profilePicture;
+  var picture = require("../assets/Profilepicture.jpeg"); // Beispielbild
 
   return (
     <DrawerContentScrollView
-      {...props}
+      navigation={navigation}
+      {...rest}
       contentContainerStyle={{ backgroundColor: colors.color2 }}
     >
       <View style={styles.drawerHeader}>
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <View style={styles.profileContainer}>
           <Image source={picture} style={styles.profileImage} />
-          <View style={{ marginLeft: 10 }}>
+          <View style={styles.userInfo}>
             <Text style={styles.username}>
               {user.name} {user.lastName}
             </Text>
@@ -28,42 +29,47 @@ const CustomDrawerContent = ({ navigation, handleLogout, ...props }) => {
           </View>
         </View>
       </View>
-      <View style={styles.DrawerItem}>
-        <DrawerItemList {...props} />
-        <View style={styles.logoutContainer}>
-          <TouchableOpacity
-            onPress={() => {
-              handleLogout();
-              navigation.closeDrawer();
-            }}
-            style={styles.logoutButton}
-          >
-            <Icon
-              name="logout"
-              size={20}
-              color={colors.black}
-              style={{ marginRight: 8 }}
-            />
-            <Text style={{ fontSize: 16, color: colors.text }}>Logout</Text>
-          </TouchableOpacity>
-        </View>
+      <View style={styles.drawerItem}>
+        <DrawerItemList navigation={navigation} {...rest} />
+        <TouchableOpacity
+          onPress={() => {
+            handleLogout();
+            navigation.closeDrawer();
+          }}
+          style={styles.logoutButton}
+        >
+          <Icon
+            name="logout"
+            size={20}
+            color={colors.black}
+            style={{ marginRight: 8 }}
+          />
+          <Text style={{ fontSize: 16, color: colors.text }}>Logout</Text>
+        </TouchableOpacity>
       </View>
     </DrawerContentScrollView>
   );
 };
 
-const styles = {
+const styles = StyleSheet.create({
   drawerHeader: {
     paddingTop: 40,
     paddingLeft: 16,
     paddingBottom: 20,
     backgroundColor: colors.color2,
   },
+  profileContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
   profileImage: {
     width: 50,
     height: 50,
     borderRadius: 25,
     backgroundColor: colors.background1,
+  },
+  userInfo: {
+    marginLeft: 10,
   },
   username: {
     fontSize: 18,
@@ -74,20 +80,17 @@ const styles = {
     fontSize: 16,
     color: colors.text,
   },
-  DrawerItem: {
+  drawerItem: {
     backgroundColor: colors.background1,
-  },
-  logoutContainer: {
-    borderTopWidth: 1,
-    borderTopColor: "lightgray",
-    paddingTop: 10,
-    marginHorizontal: 16,
   },
   logoutButton: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 10,
+    borderTopWidth: 1,
+    borderTopColor: "lightgray",
+    paddingVertical: 10,
+    marginHorizontal: 16,
   },
-};
+});
 
 export default CustomDrawerContent;

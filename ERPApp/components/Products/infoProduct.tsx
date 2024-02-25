@@ -12,60 +12,67 @@ import colors from "../../assets/color";
 import Icon from "react-native-vector-icons/Ionicons";
 
 const ProducktInfoPopUp = ({ isVisible, onClose, info }) => {
-  return (
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={isVisible}
-      onRequestClose={onClose}
-    >
-      <View style={styles.modalContainer}>
-        <View style={styles.modalContent}>
-          <Text style={styles.modalTitle}>{info.name}</Text>
-          <View>
+  try {
+    return (
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isVisible}
+        onRequestClose={onClose}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>{info.name}</Text>
             <View>
-              <Text style={styles.itemText}>
-                <Text style={{ fontWeight: "bold" }}>Forhandende Mänge: </Text>
-                <Text>{info.quantity}</Text>
-              </Text>
-              <Text style={styles.itemText}>
-                <Text style={{ fontWeight: "bold" }}>Artikel Nr: </Text>
-                <Text>{info.id}</Text>
-              </Text>
-              <Text style={styles.itemText}>
-                <Text style={{ fontWeight: "bold" }}>kategorie: </Text>
-                <Text>{info.category}</Text>
-              </Text>
-              <Text style={styles.itemText}>
-                <Text style={{ fontWeight: "bold" }}>Preis: </Text>
-                <Text>{info.price} €</Text>
-              </Text>
-              <Text style={styles.itemText}>
-                <Text style={{ fontWeight: "bold" }}>Regal: </Text>
-                <Text>{info.shelf}, </Text>
-                <Text style={{ fontWeight: "bold" }}>Fach: </Text>
-                <Text>{info.row}</Text>
-              </Text>
-              <View style={styles.info}>
-                <Text style={{ fontWeight: "bold" }}>
-                  Produckt Beschreibung:
+              <View>
+                <Text style={styles.itemText}>
+                  <Text style={{ fontWeight: "bold" }}>
+                    Forhandende Mänge:{" "}
+                  </Text>
+                  <Text>{info.quantity}</Text>
                 </Text>
-                <Text>{info.info}</Text>
+                <Text style={styles.itemText}>
+                  <Text style={{ fontWeight: "bold" }}>Artikel Nr: </Text>
+                  <Text>{info.id}</Text>
+                </Text>
+                <Text style={styles.itemText}>
+                  <Text style={{ fontWeight: "bold" }}>kategorie: </Text>
+                  <Text>{info.category}</Text>
+                </Text>
+                <Text style={styles.itemText}>
+                  <Text style={{ fontWeight: "bold" }}>Preis: </Text>
+                  <Text>{info.price} €</Text>
+                </Text>
+                <Text style={styles.itemText}>
+                  <Text style={{ fontWeight: "bold" }}>Regal: </Text>
+                  <Text>{info.shelf}, </Text>
+                  <Text style={{ fontWeight: "bold" }}>Fach: </Text>
+                  <Text>{info.row}</Text>
+                </Text>
+                <View style={styles.info}>
+                  <Text style={{ fontWeight: "bold" }}>
+                    Produckt Beschreibung:
+                  </Text>
+                  <Text>{info.info}</Text>
+                </View>
               </View>
             </View>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                onClose();
+              }}
+            >
+              <Icon name="close" size={25} color={colors.black} />
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              onClose();
-            }}
-          >
-            <Icon name="close" size={25} color={colors.black} />
-          </TouchableOpacity>
         </View>
-      </View>
-    </Modal>
-  );
+      </Modal>
+    );
+  } catch (error) {
+    console.error("Error rendering ProducktInfoPopUp:", error);
+    return null;
+  }
 };
 
 const styles = StyleSheet.create({

@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { Text, View, Image, StyleSheet } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
+import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import Icon from "react-native-vector-icons/Ionicons";
 import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import FeatherIcon from "react-native-vector-icons/Feather";
 import CustomDrawerContent from "../components/CustomDrawerComponet";
+import colors from "../assets/color";
 //Screens
 import HomeScreen from "./HomeScreen";
 import OrderScreen from "./OrderScreen";
@@ -18,7 +17,6 @@ import UserSettingsScreen from "./SettingScreens/UserSettingsScreen";
 import InterfaceSettingsScreen from "./SettingScreens/InterfaceSettingsScreen";
 import NotificationSettingsScreen from "./SettingScreens/NotificationSettingsScreen";
 //data
-import colors from "../assets/color";
 import CurrenUserData from "../Data/LoginUserData";
 
 const Stack = createStackNavigator();
@@ -111,7 +109,8 @@ const SettingsStack = () => {
   );
 };
 
-const Screens = ({ handleLogout }) => {
+const DrawerScreen = ({ route, navigation }) => {
+  const handleLogout = route.params?.handleLogout;
   return (
     <Drawer.Navigator
       drawerContent={(props) => (
@@ -141,6 +140,16 @@ const Screens = ({ handleLogout }) => {
         }}
       />
       <Drawer.Screen
+        name="Produkte"
+        component={ProductsStack}
+        options={{
+          drawerIcon: (config) => (
+            <Icon size={25} color={colors.black} name={"cube-outline"} />
+          ),
+        }}
+      />
+
+      <Drawer.Screen
         name="Aufträge"
         component={OrderStack}
         options={{
@@ -153,15 +162,17 @@ const Screens = ({ handleLogout }) => {
           ),
         }}
       />
+
       <Drawer.Screen
-        name="Produkte"
-        component={ProductsStack}
+        name="Einstellungen"
+        component={SettingsStack}
         options={{
           drawerIcon: (config) => (
-            <Icon size={25} color={colors.black} name={"cube-outline"} />
+            <Icon size={25} color={colors.black} name={"settings-outline"} />
           ),
         }}
       />
+
       {user.role === "admin" && (
         <Drawer.Screen
           name="Mitarbeiter"
@@ -173,17 +184,8 @@ const Screens = ({ handleLogout }) => {
           }}
         />
       )}
-      <Drawer.Screen
-        name="Einstellungen"
-        component={SettingsStack}
-        options={{
-          drawerIcon: (config) => (
-            <Icon size={25} color={colors.black} name={"settings-outline"} />
-          ),
-        }}
-      />
     </Drawer.Navigator>
   );
 };
 
-export default Screens;
+export default DrawerScreen;

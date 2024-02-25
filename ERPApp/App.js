@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import CustomDrawerContent from "./components/CustomDrawerComponet";
+import { createStackNavigator } from "@react-navigation/stack";
 import LoginScreen from "./Screens/LoginScreen";
-import Screens from "./Screens/Screns";
+import RegistrationScreen from "./Screens/RegistrationScreen";
+import DrawerScreen from "./Screens/DrawerScreen";
 import colors from "./assets/color";
+import { login } from "./Data/UserDbData";
+import { saveUserData } from "./Data/LoginUserData";
 const MyTheme = {
   colors: {
     primary: colors.color1,
@@ -14,22 +17,45 @@ const MyTheme = {
     color: colors.text,
   },
 };
+const Stack = createStackNavigator();
 
 const App = () => {
   const [isLogged, setIsLogged] = useState(false);
-
-  const handleLogout = () => {
-    // Hier kann deine Auslogik implementiert werden, z.B. Auth-Token entfernen, etc.
-    setIsLogged(false);
+  const handleLogin = () => {
+    setIsLogged(true);
   };
 
+  const handleLogout = () => {
+    setIsLogged(false);
+  };
   return (
     <NavigationContainer theme={MyTheme}>
-      {isLogged ? (
-        <Screens handleLogout={handleLogout} />
-      ) : (
-        <LoginScreen handleLogin={() => setIsLogged(true)} />
-      )}
+      <Stack.Navigator>
+        {isLogged ? (
+          <>
+            <Stack.Screen
+              name="DrawerScreen"
+              component={DrawerScreen}
+              options={{ headerShown: false }}
+              initialParams={{ handleLogout: handleLogout }}
+            />
+          </>
+        ) : (
+          <>
+            <Stack.Screen
+              name="Login"
+              component={LoginScreen}
+              options={{ headerShown: false }}
+              initialParams={{ handleLogin: handleLogin }}
+            />
+            <Stack.Screen
+              name="Register"
+              component={RegistrationScreen}
+              options={{ headerShown: false }}
+            />
+          </>
+        )}
+      </Stack.Navigator>
     </NavigationContainer>
   );
 };

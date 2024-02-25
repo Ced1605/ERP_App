@@ -5,53 +5,48 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
-  Alert,
   Dimensions,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import colors from "../assets/color";
-import { login } from "../Data/UserDbData";
 
-const LoginScreen = ({ route, navigation }) => {
-  const [name, setUserName] = useState("");
-  const [password, setPassword] = useState("");
-
+const RegistrationScreen = ({ navigation }) => {
   const [showPassword, setShowPassword] = useState(false);
-  const handleRegistrationButtonPress = () => {
-    navigation.navigate("Register");
+
+  const handleRegistration = () => {
+    navigation.navigate("Login");
   };
 
-  const handleLogin = async () => {
-    try {
-      const userId = await login(name, password);
-      route.params?.handleLogin();
-      console.log("Erfolgreich angemeldet:", userId);
-    } catch (error) {
-      console.error("Fehler beim Anmelden:", error);
-      // Alert.alert("Fehler", "Fehler beim Anmelden");
-    }
+  const handelQuit = () => {
+    navigation.navigate("Login");
   };
 
   return (
     <View style={styles.boddy}>
-      <Text style={styles.headline}>Login</Text>
+      <Text style={styles.headline}>Regestrieren</Text>
       <View style={styles.LoginContainer}>
         <View>
           <Text style={styles.LoginText}>Benutzer Name</Text>
           <TextInput
-            value={name}
-            onChangeText={setUserName}
             style={styles.LoginInput}
             autoComplete={"username"}
             textContentType={"username"}
             autoCorrect={false}
           />
         </View>
+        <View>
+          <Text style={styles.LoginText}>Email</Text>
+          <TextInput
+            style={styles.LoginInput}
+            autoComplete={"email"}
+            inputMode={"email"}
+            textContentType={"emailAddress"}
+            autoCorrect={false}
+          />
+        </View>
         <Text style={styles.LoginText}>Password</Text>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <TextInput
-            value={password}
-            onChangeText={setPassword}
             style={[styles.LoginInput, { flex: 1 }]}
             autoComplete={"current-password"}
             textContentType={"password"}
@@ -68,11 +63,14 @@ const LoginScreen = ({ route, navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-      <TouchableOpacity style={styles.buttonContainer} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Login</Text>
+      <TouchableOpacity
+        style={styles.buttonContainer}
+        onPress={handleRegistration}
+      >
+        <Text style={styles.Register}>Regestriern</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={handleRegistrationButtonPress}>
-        <Text style={styles.Register}>Registrieren</Text>
+      <TouchableOpacity onPress={handelQuit}>
+        <Text style={{ color: colors.text }}>Abbrechen</Text>
       </TouchableOpacity>
     </View>
   );
@@ -98,7 +96,7 @@ const styles = StyleSheet.create({
       Dimensions.get("window").width >= 600
         ? 400
         : Dimensions.get("window").width - 70,
-    maxHeight: 150,
+    maxHeight: 250,
     padding: 15,
     borderRadius: 15,
     marginHorizontal: 20,
@@ -139,14 +137,11 @@ const styles = StyleSheet.create({
         ? 400
         : Dimensions.get("window").width - 70,
   },
-  buttonText: {
-    color: "white",
+  Register: {
+    color: colors.white,
     fontSize: 16,
     fontWeight: "bold",
   },
-  Register: {
-    color: colors.text,
-  },
 });
 
-export default LoginScreen;
+export default RegistrationScreen;
