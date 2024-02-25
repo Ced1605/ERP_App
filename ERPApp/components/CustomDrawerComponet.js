@@ -8,10 +8,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import colors from "../assets/color";
 import CurrenUserData from "../Data/LoginUserData";
 
-const CustomDrawerContent = (props) => {
-  const handleLogout = () => {
-    // Hier fügst du die Logik für die Abmeldung hinzu
-  };
+const CustomDrawerContent = ({ navigation, handleLogout, ...props }) => {
   const user = CurrenUserData[0];
   var picture = user.profilePicture;
 
@@ -34,7 +31,13 @@ const CustomDrawerContent = (props) => {
       <View style={styles.DrawerItem}>
         <DrawerItemList {...props} />
         <View style={styles.logoutContainer}>
-          <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
+          <TouchableOpacity
+            onPress={() => {
+              handleLogout();
+              navigation.closeDrawer();
+            }}
+            style={styles.logoutButton}
+          >
             <Icon
               name="logout"
               size={20}

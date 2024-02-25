@@ -6,27 +6,47 @@ import {
   Modal,
   TouchableOpacity,
   StyleSheet,
+  Dimensions,
 } from "react-native";
 import colors from "../../assets/color";
+import { addProduct } from "../../Data/ProductData";
 
-const AddProductPopUp = ({ isVisible, onClose, onSave }) => {
-  const [id, setId] = useState("");
-  const [customer, setCustomer] = useState("");
-  const [product, setProduct] = useState("");
+const AddProductPopUp = ({ isVisible, onClose, onProductsUpdate }) => {
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+  const [category, setCategory] = useState("");
   const [quantity, setQuantity] = useState("");
+  const [shelf, setShelf] = useState("");
+  const [row, setRow] = useState("");
+  const [info, setInfo] = useState("");
 
-  const handleSave = () => {
-    const newOrder = {
-      id: id,
-      customer: customer,
-      product: product,
-      quantity: quantity,
-    };
-    onSave(newOrder);
-    setId("");
-    setCustomer("");
-    setProduct("");
-    setQuantity("");
+  const handleSave = async () => {
+    try {
+      const newProduct = {
+        id: 0,
+        name: name,
+        price: parseFloat(price),
+        category: category,
+        quantity: parseInt(quantity),
+        shelf: shelf,
+        row: row,
+        info: info,
+      };
+
+      await addProduct(newProduct);
+
+      setName("");
+      setPrice("");
+      setCategory("");
+      setQuantity("");
+      setShelf("");
+      setRow("");
+      setInfo("");
+
+      onClose();
+    } catch (error) {
+      console.error("Error adding product:", error);
+    }
   };
 
   return (
@@ -41,24 +61,24 @@ const AddProductPopUp = ({ isVisible, onClose, onSave }) => {
           <Text style={styles.modalTitle}>Auftrag Hinzufügen</Text>
           <TextInput
             style={styles.input}
-            placeholder="id"
+            placeholder="Name"
             placeholderTextColor={colors.text}
-            value={id}
-            onChangeText={(text) => setId(text)}
+            value={name}
+            onChangeText={(text) => setName(text)}
           />
           <TextInput
             style={styles.input}
-            placeholder="Customer"
+            placeholder="Preis"
             placeholderTextColor={colors.text}
-            value={customer}
-            onChangeText={(text) => setCustomer(text)}
+            value={price}
+            onChangeText={(text) => setPrice(text)}
           />
           <TextInput
             style={styles.input}
-            placeholder="Product"
+            placeholder="Kategorie"
             placeholderTextColor={colors.text}
-            value={product}
-            onChangeText={(text) => setProduct(text)}
+            value={category}
+            onChangeText={(text) => setCategory(text)}
           />
           <TextInput
             style={styles.input}
@@ -66,6 +86,27 @@ const AddProductPopUp = ({ isVisible, onClose, onSave }) => {
             placeholderTextColor={colors.text}
             value={quantity}
             onChangeText={(text) => setQuantity(text)}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Regal"
+            placeholderTextColor={colors.text}
+            value={shelf}
+            onChangeText={(text) => setShelf(text)}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Fach"
+            placeholderTextColor={colors.text}
+            value={row}
+            onChangeText={(text) => setRow(text)}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Info"
+            placeholderTextColor={colors.text}
+            value={info}
+            onChangeText={(text) => setInfo(text)}
           />
           <View style={styles.buttonContainer}>
             <TouchableOpacity style={styles.button} onPress={onClose}>
@@ -86,7 +127,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.76)", //scren darknes pop up
+    backgroundColor: "rgba(0, 0, 0, 0.76)",
   },
   modalContent: {
     backgroundColor: colors.background3,
@@ -102,6 +143,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
+    width: Dimensions.get("window").width - 100,
     borderColor: "gray",
     borderWidth: 1,
     marginBottom: 20,

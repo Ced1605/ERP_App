@@ -9,58 +9,107 @@ import {
 } from "react-native";
 import colors from "../../assets/color";
 import Icon from "react-native-vector-icons/FontAwesome";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { getAllProducts, getProduct } from "../../Data/ProductData";
 
-const ProductComponent = ({ products, onEdit, onDelete }) => {
-  const [filteredProducts, setFilteredProducts] = useState(products);
+const ProductComponent = ({
+  onEdit,
+  onDelete,
+  onInfo,
+  isProductsUpdated,
+  isSearchVisible,
+}) => {
+  const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    setFilteredProducts(products);
-  }, [products]);
+    fetchProducts();
+  }, [isProductsUpdated]);
 
-  const handleEdit = (id) => {
+  const fetchProducts = async () => {
+    try {
+      const products = await getAllProducts();
+      setProducts(products);
+      setFilteredProducts(products); // Initially set filtered products to all products
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+
+  const handleEdit = async (id) => {
     onEdit(id);
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     onDelete(id);
+  };
+  const handleInfo = async (id) => {
+    onInfo(id);
+  };
+
+  const handleSearch = (text) => {
+    setSearchTerm(text);
+    const filtered = products.filter(
+      (item) =>
+        item.name.toLowerCase().includes(text.toLowerCase()) ||
+        item.id.toString().includes(text) ||
+        item.category.toLowerCase().includes(text.toLowerCase())
+    );
+    setFilteredProducts(filtered);
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.listContainer}>
-        <FlatList
-          data={filteredProducts}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <View style={styles.productItem}>
-              <View style={styles.Items}>
-                <Text style={styles.productText}>Produktnummer: {item.id}</Text>
-                <Text style={styles.productText}>Name: {item.name}</Text>
-                <Text style={styles.productText}>Menge: {item.quantity}</Text>
-                <Text style={styles.productText}>Type: {item.type}</Text>
-              </View>
-              <View style={styles.iconsContainer}>
-                <TouchableOpacity onPress={() => handleEdit(item.id)}>
-                  <Icon
-                    style={styles.icon}
-                    name="edit"
-                    size={25}
-                    color={colors.black}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => handleDelete(item.id)}>
-                  <Icon
-                    style={[styles.icon, { marginRight: 4 }]}
-                    name="trash"
-                    size={25}
-                    color={colors.black}
-                  />
-                </TouchableOpacity>
-              </View>
-            </View>
-          )}
+      {isSearchVisible && (
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search..."
+          placeholderTextColor={colors.text}
+          onChangeText={handleSearch}
         />
-      </View>
+      )}
+      <FlatList
+        data={filteredProducts}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => (
+          <View style={styles.productItem}>
+            <View style={styles.Items}>
+              <Text style={styles.productText}>Product Number: {item.id}</Text>
+              <Text style={styles.productText}>Name: {item.name}</Text>
+              <Text style={styles.productText}>Quantity: {item.quantity}</Text>
+              <Text style={styles.productText}>Price: {item.price} €</Text>
+              <Text style={styles.productText}>Type: {item.category}</Text>
+            </View>
+            <View style={styles.iconsContainer}>
+              <TouchableOpacity onPress={() => handleEdit(item.id)}>
+                <Icon
+                  style={styles.icon}
+                  name="edit"
+                  size={25}
+                  color={colors.black}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => handleDelete(item.id)}>
+                <Icon
+                  style={[styles.icon, { marginRight: 4 }]}
+                  name="trash"
+                  size={25}
+                  color={colors.black}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => handleInfo(item)}>
+                <Ionicons
+                  style={[styles.icon, { marginRight: 4, marginTop: 60 }]}
+                  name="information-circle-outline"
+                  size={25}
+                  color={colors.black}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
+      />
     </View>
   );
 };
@@ -70,14 +119,13 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
-  header: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 16,
-    backgroundColor: colors.background1,
-  },
-  listContainer: {
-    flex: 1,
+  searchInput: {
+    marginBottom: 10,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: colors.text,
+    borderRadius: 5,
+    color: colors.text,
   },
   productItem: {
     justifyContent: "space-between",
@@ -100,9 +148,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 8,
     color: colors.text,
-  },
-  checkbox: {
-    marginTop: 20,
   },
   Items: {
     flexDirection: "column",

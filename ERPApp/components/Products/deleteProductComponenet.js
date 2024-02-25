@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, Modal, TouchableOpacity, StyleSheet } from "react-native";
 import colors from "../../assets/color";
+import { deleteProduct } from "../../Data/ProductData";
 
 const DeleteProductPopUp = ({ isVisible, onClose, productToDelete }) => {
   const id = productToDelete;
@@ -14,8 +15,8 @@ const DeleteProductPopUp = ({ isVisible, onClose, productToDelete }) => {
     >
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
-          <Text style={styles.modalTitle}>Auftrag Bearbeiten</Text>
-          <Text>Auftragsnummer: {id}</Text>
+          <Text style={styles.modalTitle}>Product Löschen</Text>
+          <Text>Product {id}</Text>
           <View style={styles.buttonContainer}>
             <TouchableOpacity style={styles.button} onPress={onClose}>
               <Text style={styles.buttonText}>Abbrechen</Text>
@@ -23,6 +24,7 @@ const DeleteProductPopUp = ({ isVisible, onClose, productToDelete }) => {
             <TouchableOpacity
               style={styles.button}
               onPress={() => {
+                deleteProduct(parseInt(id));
                 console.log("Confirm Delete Product", id);
                 onClose();
               }}

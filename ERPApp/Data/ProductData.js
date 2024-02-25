@@ -1,13 +1,88 @@
-const products = [
-  { id: 1, name: "Produkt A", quantity: 1, type: "Wood" },
-  { id: 2, name: "Produkt B", quantity: 3, type: "Food" },
-  { id: 3, name: "Produkt C", quantity: 1, type: "Wood" },
-  { id: 4, name: "Produkt D", quantity: 1, type: "Paper" },
-  { id: 5, name: "Produkt E", quantity: 1, type: "Wood" },
-  { id: 6, name: "Produkt F", quantity: 1, type: "Paper" },
-  { id: 7, name: "Produkt G", quantity: 1, type: "Food" },
-  { id: 8, name: "Produkt H", quantity: 1, type: "Wood" },
-  { id: 9, name: "Produkt I", quantity: 1, type: "Food" },
-  { id: 10, name: "Produkt J", quantity: 1, type: "Paper" },
-];
-export default products;
+const BASE_URL = "http://192.168.178.86:5254/db/Product";
+// GET-Anfrage mit ID
+const getProduct = async (id) => {
+  try {
+    const response = await fetch(`${BASE_URL}/${id}`);
+    if (!response.ok) {
+      throw new Error("Failed to fetch product");
+    }
+    const product = await response.json();
+    return product;
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    throw error;
+  }
+};
+
+// DELETE-Anfrage
+const deleteProduct = async (id) => {
+  try {
+    const response = await fetch(`${BASE_URL}/${id}`, {
+      method: "DELETE",
+    });
+    if (!response.ok) {
+      throw new Error("Failed to delete product");
+    }
+    console.log("Product deleted successfully");
+  } catch (error) {
+    console.error("Error deleting product:", error);
+    throw error;
+  }
+};
+
+// PUT-Anfrage
+const updateProduct = async (id, updatedProduct) => {
+  try {
+    const response = await fetch(`${BASE_URL}/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedProduct),
+    });
+    if (!response.ok) {
+      throw new Error("Failed to update product");
+    }
+    console.log("Product updated successfully");
+  } catch (error) {
+    console.error("Error updating product:", error);
+    throw error;
+  }
+};
+
+// GET-Anfrage
+const getAllProducts = async () => {
+  try {
+    const response = await fetch(BASE_URL);
+    if (!response.ok) {
+      throw new Error("Failed to fetch products");
+    }
+    const products = await response.json();
+    return products;
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    throw error;
+  }
+};
+
+// POST-Anfrage
+const addProduct = async (newProduct) => {
+  try {
+    const response = await fetch(BASE_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newProduct),
+    });
+    if (!response.ok) {
+      throw new Error("Failed to add product");
+    }
+    console.log("Product added successfully");
+  } catch (error) {
+    console.error("Error adding product:", error);
+    throw error;
+  }
+};
+
+export { getProduct, deleteProduct, updateProduct, getAllProducts, addProduct };

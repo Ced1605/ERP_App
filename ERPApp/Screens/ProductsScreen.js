@@ -2,36 +2,45 @@ import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, TextInput } from "react-native";
 import ProductStyles from "../Styles/ProductStyel";
 import ProductComponent from "../components/Products/productComponent";
-import products from "../Data/ProductData";
 import DeleteProductPopUp from "../components/Products/deleteProductComponenet";
 import EditProductPopUp from "../components/Products/editeProductComponent";
 import AddProductPopUp from "../components/Products/addProductComponet";
+import ProducktInfoPopUp from "../components/Products/infoProduct";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import ComIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import colors from "../assets/color";
+import { getAllProducts } from "../Data/ProductData"; // Importiere die getAllProducts-Funktion aus der API-Datei
 
 const ProductsScreen = () => {
   const [isAddModalVisible, setAddModalVisible] = useState(false);
   const [isEditModalVisible, setEditModalVisible] = useState(false);
   const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
-  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [isInfoModalVisible, setInfoModalVisible] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const [isSearchVisible, setSearchVisible] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredProducts, setFilteredProducts] = useState(products);
+  const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
-  //filter
+  const [isProductsUpdated, setIsProductsUpdated] = useState(false);
   const toggleSearch = () => {
     setSearchVisible(!isSearchVisible);
   };
+
   useEffect(() => {
-    const filtered = products.filter(
-      (item) =>
-        item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.id.toString().includes(searchTerm) ||
-        item.type.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredProducts(filtered);
-  }, [searchTerm, products]);
+    fetchProducts();
+    setIsProductsUpdated(true);
+  }, [isAddModalVisible, isEditModalVisible, isDeleteModalVisible]);
+
+  const fetchProducts = async () => {
+    try {
+      const products = await getAllProducts();
+      setProducts(products);
+      console.log("load products");
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
 
   const toggleFilter = () => {
     console.log("Toggel Filter");
@@ -46,26 +55,22 @@ const ProductsScreen = () => {
   };
 
   const handleEdit = (product) => {
-    setSelectedOrder(product);
+    setSelectedProduct(product);
     setEditModalVisible(true);
   };
 
   const handleDelete = (product) => {
-    setSelectedOrder(product);
+    setSelectedProduct(product);
     setDeleteModalVisible(true);
+  };
+
+  const handleInfo = (product) => {
+    setSelectedProduct(product);
+    setInfoModalVisible(true);
   };
 
   const handleEditSave = () => {
     setEditModalVisible(false);
-  };
-
-  const handleAddSave = (newProduct) => {
-    console.log("Speichern des neuen Produkts", newProduct);
-    setAddModalVisible(false);
-  };
-
-  const handleDeleteConfirm = () => {
-    console.log("Löschen bestätigt");
   };
 
   return (
@@ -100,36 +105,48 @@ const ProductsScreen = () => {
           </TouchableOpacity>
         </View>
       </View>
-      {isSearchVisible && (
-        <TextInput
-          style={ProductStyles.searchInput}
-          placeholder="Suchen..."
-          placeholderTextColor={colors.text}
-          onChangeText={(text) => setSearchTerm(text)}
-        />
-      )}
       <ProductComponent
         products={filteredProducts}
         onEdit={handleEdit}
         onDelete={handleDelete}
+        onInfo={handleInfo}
+        isProductsUpdated={isProductsUpdated}
+        setIsProductsUpdated={setIsProductsUpdated}
+        isSearchVisible={isSearchVisible}
       />
 
       <AddProductPopUp
         isVisible={isAddModalVisible}
-        onClose={() => setAddModalVisible(false)}
-        onSave={handleAddSave}
+        onClose={() => {
+          setAddModalVisible(false);
+          fetchProducts();
+          console.log("save");
+        }}
       />
       <EditProductPopUp
         isVisible={isEditModalVisible}
-        onClose={() => setEditModalVisible(false)}
+        onClose={() => {
+          setEditModalVisible(false);
+          fetchProducts();
+          setIsProductsUpdated(true);
+        }}
         onSave={handleEditSave}
-        productToEdit={selectedOrder}
+        productToEdit={selectedProduct}
       />
       <DeleteProductPopUp
         isVisible={isDeleteModalVisible}
-        onClose={() => setDeleteModalVisible(false)}
-        onDeleteConfirm={handleDeleteConfirm}
-        productToDelete={selectedOrder}
+        onClose={() => {
+          setDeleteModalVisible(false);
+          fetchProducts();
+        }}
+        productToDelete={selectedProduct}
+      />
+      <ProducktInfoPopUp
+        isVisible={isInfoModalVisible}
+        onClose={() => {
+          setInfoModalVisible(false);
+        }}
+        info={selectedProduct}
       />
     </View>
   );

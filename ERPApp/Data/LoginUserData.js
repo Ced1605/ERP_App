@@ -3,11 +3,14 @@
 //Solten Hier Keine daten vorligen Wird ein Login Screen Angezeigt.
 const CurrenUserData = [
   {
-    id: 1,
-    name: "Cedric",
-    lastName: "Laurich",
-    address: "Hörsteloe",
-    role: "admin",
+    id: 0,
+    name: "",
+    lastName: "",
+    address: "",
+    email: "",
+    phoneneumber: "",
+    info: "",
+    role: "",
     profilePicture: require("../assets/Profilepicture.jpeg"),
   },
 ];
