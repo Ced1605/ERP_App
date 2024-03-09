@@ -1,4 +1,6 @@
-const BASE_URL = "http://192.168.178.86:5254/db/Product";
+import url from "./DbURL";
+
+const BASE_URL = url + "Product";
 // GET-Anfrage mit ID
 const getProduct = async (id) => {
   try {

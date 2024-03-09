@@ -15,7 +15,7 @@ import { login } from "../Data/UserDbData";
 const LoginScreen = ({ route, navigation }) => {
   const [name, setUserName] = useState("");
   const [password, setPassword] = useState("");
-
+  const [error, setError] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const handleRegistrationButtonPress = () => {
     navigation.navigate("Register");
@@ -29,6 +29,7 @@ const LoginScreen = ({ route, navigation }) => {
     } catch (error) {
       console.error("Fehler beim Anmelden:", error);
       // Alert.alert("Fehler", "Fehler beim Anmelden");
+      setError(true);
     }
   };
 
@@ -67,6 +68,11 @@ const LoginScreen = ({ route, navigation }) => {
             />
           </TouchableOpacity>
         </View>
+        {error && (
+          <Text style={styles.errorText}>
+            Benutzer oder Passord Nicht korrekt
+          </Text>
+        )}
       </View>
       <TouchableOpacity style={styles.buttonContainer} onPress={handleLogin}>
         <Text style={styles.buttonText}>Login</Text>
@@ -93,12 +99,11 @@ const styles = StyleSheet.create({
     alignSelf: Dimensions.get("window").width >= 600 ? "center" : "flex-start",
   },
   LoginContainer: {
-    flex: 1,
+    //flex: 1,
     width:
       Dimensions.get("window").width >= 600
         ? 400
         : Dimensions.get("window").width - 70,
-    maxHeight: 150,
     padding: 15,
     borderRadius: 15,
     marginHorizontal: 20,
@@ -146,6 +151,11 @@ const styles = StyleSheet.create({
   },
   Register: {
     color: colors.text,
+  },
+  errorText: {
+    alignSelf: "center",
+    margin: 5,
+    color: "red",
   },
 });
 

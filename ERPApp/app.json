@@ -4,27 +4,41 @@
     "slug": "ERPApp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/Logo/Logo_2.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/Logo/Logo_2.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.ceddi.ERPApp"
     },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ]
+    ],
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/Logo/Logo_2.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "757efa31-4fcd-4ab4-a369-b6f3f9d5a245"
+      }
     }
   }
 }
