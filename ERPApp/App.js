@@ -7,6 +7,7 @@ import DrawerScreen from "./Screens/DrawerScreen";
 import colors from "./assets/color";
 import { login } from "./Data/UserDbData";
 import { saveUserData } from "./Data/LoginUserData";
+
 const MyTheme = {
   colors: {
     primary: colors.color1,
@@ -17,10 +18,12 @@ const MyTheme = {
     color: colors.text,
   },
 };
+
 const Stack = createStackNavigator();
 
 const App = () => {
-  const [isLogged, setIsLogged] = useState(false);
+  const [isLogged, setIsLogged] = useState(true);
+
   const handleLogin = () => {
     setIsLogged(true);
   };
@@ -28,19 +31,11 @@ const App = () => {
   const handleLogout = () => {
     setIsLogged(false);
   };
+
   return (
     <NavigationContainer theme={MyTheme}>
       <Stack.Navigator>
-        {isLogged ? (
-          <>
-            <Stack.Screen
-              name="DrawerScreen"
-              component={DrawerScreen}
-              options={{ headerShown: false }}
-              initialParams={{ handleLogout: handleLogout }}
-            />
-          </>
-        ) : (
+        {!isLogged ? (
           <>
             <Stack.Screen
               name="Login"
@@ -54,6 +49,13 @@ const App = () => {
               options={{ headerShown: false }}
             />
           </>
+        ) : (
+          <Stack.Screen
+            name="DrawerScreen"
+            component={DrawerScreen}
+            options={{ headerShown: false }}
+            initialParams={{ handleLogout: handleLogout }}
+          />
         )}
       </Stack.Navigator>
     </NavigationContainer>
