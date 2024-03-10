@@ -10,7 +10,7 @@ import {
 import colors from "../../assets/color";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { getAllProducts, getProduct } from "../../Data/ProductData";
+import { getAllProducts, getProduct } from "../../Data/ProductRequest";
 
 const ProductComponent = ({
   onEdit,

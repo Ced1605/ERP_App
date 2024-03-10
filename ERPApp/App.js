@@ -5,8 +5,7 @@ import LoginScreen from "./Screens/LoginScreen";
 import RegistrationScreen from "./Screens/RegistrationScreen";
 import DrawerScreen from "./Screens/DrawerScreen";
 import colors from "./assets/color";
-import { login } from "./Data/UserDbData";
-import { saveUserData } from "./Data/LoginUserData";
+import { login } from "./Data/LoginRequest";
 
 const MyTheme = {
   colors: {

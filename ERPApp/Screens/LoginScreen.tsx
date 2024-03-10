@@ -10,7 +10,9 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import colors from "../assets/color";
-import { login } from "../Data/UserDbData";
+import { login } from "../Data/LoginRequest";
+import updateUserData from "../components/function/UpdateUserData";
+import GetLoginUserData from "../components/function/GetUserDateAfterLogin";
 
 const LoginScreen = ({ route, navigation }) => {
   const [name, setUserName] = useState("");
@@ -23,12 +25,13 @@ const LoginScreen = ({ route, navigation }) => {
 
   const handleLogin = async () => {
     try {
-      const userId = await login(name, password);
+      const userToken = await login(name, password);
+      updateUserData({ UserToken: userToken });
+      GetLoginUserData(userToken);
       route.params?.handleLogin();
-      console.log("Erfolgreich angemeldet:", userId);
+      console.log("Erfolgreich angemeldet:", userToken);
     } catch (error) {
-      console.error("Fehler beim Anmelden:", error);
-      // Alert.alert("Fehler", "Fehler beim Anmelden");
+      console.error("Fehler beim Anmelden:", error, "  Login Scrreen");
       setError(true);
     }
   };

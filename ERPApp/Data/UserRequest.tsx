@@ -17,33 +17,6 @@ const getUser = async (id) => {
   }
 };
 
-// POST-Anfrage für login mit name und password
-const login = async (name, password) => {
-  try {
-    const response = await fetch(`${BASE_URL}/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name, password }),
-    });
-    console.log("Response Status:", response.status);
-    console.log("Response Status Text:", response.statusText);
-    console.log("Response Headers:", response.headers);
-
-    if (!response.ok) {
-      throw new Error("Fehler beim Anmelden");
-    }
-
-    const responseData = await response.json();
-    const { userId, message } = responseData;
-    return { userId, message };
-  } catch (error) {
-    console.error("Fehler :", error);
-    throw error;
-  }
-};
-
 // DELETE-Anfrage
 const deleteUser = async (id) => {
   try {
@@ -115,4 +88,4 @@ const addUser = async (newUser) => {
   }
 };
 
-export { getUser, deleteUser, updateUser, getAllUsers, addUser, login };
+export { getUser, deleteUser, updateUser, getAllUsers, addUser };

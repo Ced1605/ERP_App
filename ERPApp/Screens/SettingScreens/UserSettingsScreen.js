@@ -50,6 +50,7 @@ const UserSettingsScreen = () => {
           </TouchableOpacity>
         </View>
       </View>
+      <Text>Token: {user.UserToken}</Text>
     </View>
   );
 };

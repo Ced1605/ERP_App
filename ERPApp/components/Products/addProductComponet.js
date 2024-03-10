@@ -9,7 +9,7 @@ import {
   Dimensions,
 } from "react-native";
 import colors from "../../assets/color";
-import { addProduct } from "../../Data/ProductData";
+import { addProduct } from "../../Data/ProductRequest";
 
 const AddProductPopUp = ({ isVisible, onClose, onProductsUpdate }) => {
   const [name, setName] = useState("");

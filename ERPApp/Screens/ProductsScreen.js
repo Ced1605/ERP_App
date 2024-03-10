@@ -9,7 +9,7 @@ import ProducktInfoPopUp from "../components/Products/infoProduct";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import ComIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import colors from "../assets/color";
-import { getAllProducts } from "../Data/ProductData"; // Importiere die getAllProducts-Funktion aus der API-Datei
+import { getAllProducts } from "../Data/ProductRequest"; // Importiere die getAllProducts-Funktion aus der API-Datei
 
 const ProductsScreen = () => {
   const [isAddModalVisible, setAddModalVisible] = useState(false);

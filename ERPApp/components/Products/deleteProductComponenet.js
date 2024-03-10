@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, Modal, TouchableOpacity, StyleSheet } from "react-native";
 import colors from "../../assets/color";
-import { deleteProduct } from "../../Data/ProductData";
+import { deleteProduct } from "../../Data/ProductRequest";
 
 const DeleteProductPopUp = ({ isVisible, onClose, productToDelete }) => {
   const id = productToDelete;

@@ -1,3 +1,5 @@
+import React from "react";
+
 const CurrenUserData = [
   {
     id: 0,
@@ -5,10 +7,12 @@ const CurrenUserData = [
     lastName: "",
     address: "",
     email: "",
-    phoneneumber: "",
+    phoneNumber: "",
     info: "",
     role: "",
     profilePicture: require("../assets/Profilepicture.jpeg"),
+    UserToken: "",
   },
 ];
+
 export default CurrenUserData;
