@@ -12,7 +12,8 @@ import OrderScreen from "./OrderScreen";
 import ProductsScreen from "./ProductsScreen";
 import SettingsScreen from "./SettingsScreen";
 import AllUserSettingsScreen from "./AllUserScreen";
-//Settig Screens
+import ProducktInfoPopUp from "../components/Products/infoProduct";
+//Settings Screens
 import UserSettingsScreen from "./SettingScreens/UserSettingsScreen";
 import InterfaceSettingsScreen from "./SettingScreens/InterfaceSettingsScreen";
 import NotificationSettingsScreen from "./SettingScreens/NotificationSettingsScreen";
@@ -21,121 +22,104 @@ import CurrenUserData from "../Data/LoginUserData";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
-const user = CurrenUserData[0];
-const HomeStack = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="StartScreen"
-        component={HomeScreen}
-        options={{ headerShown: false }}
-      />
-    </Stack.Navigator>
-  );
-};
-const OrderStack = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="AufträgeScreen"
-        component={OrderScreen}
-        options={{ headerShown: false }}
-      />
-    </Stack.Navigator>
-  );
-};
-const ProductsStack = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="ProdukteScreen"
-        component={ProductsScreen}
-        options={{ headerShown: false }}
-      />
-    </Stack.Navigator>
-  );
-};
-const MitarbeiterStack = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="AllUserSettingsScreen"
-        component={AllUserSettingsScreen}
-        options={{ headerShown: false }}
-      />
-    </Stack.Navigator>
-  );
-};
 
-const SettingsStack = () => {
-  return (
-    <Stack.Navigator
-      initialRouteName="Settings"
-      screenOptions={{ headerTintColor: colors.color1 }}
-    >
-      <Stack.Screen
-        name="SettingsScreen"
-        component={SettingsScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="Benutzer"
-        component={UserSettingsScreen}
-        options={{
-          headerStyle: {
-            backgroundColor: colors.background1,
-          },
-        }}
-      />
-      <Stack.Screen
-        name="Oberfläche"
-        component={InterfaceSettingsScreen}
-        options={{
-          headerStyle: {
-            backgroundColor: colors.background1,
-          },
-        }}
-      />
-      <Stack.Screen
-        name="Benachrichtigungen"
-        component={NotificationSettingsScreen}
-        options={{
-          headerStyle: {
-            backgroundColor: colors.background1,
-          },
-        }}
-      />
-    </Stack.Navigator>
-  );
-};
+const HomeStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="HomeScreen"
+      component={HomeScreen}
+      options={{ headerShown: false }}
+    />
+  </Stack.Navigator>
+);
 
-const DrawerScreen = ({ route, navigation }) => {
+const OrderStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="OrderScreen"
+      component={OrderScreen}
+      options={{ headerShown: false }}
+    />
+  </Stack.Navigator>
+);
+
+const ProductsStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="ProductsScreen"
+      component={ProductsScreen}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      name="ProductInfo"
+      component={ProducktInfoPopUp}
+      options={{ headerShown: false }}
+    />
+  </Stack.Navigator>
+);
+
+const SettingsStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="SettingsScreen"
+      component={SettingsScreen}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      name="Benutzer"
+      component={UserSettingsScreen}
+      options={{
+        headerShown: true,
+        title: "Benutzer",
+        headerStyle: { backgroundColor: colors.background1 },
+        headerTintColor: colors.text,
+      }}
+    />
+    <Stack.Screen
+      name="Oberfläche"
+      component={InterfaceSettingsScreen}
+      options={{
+        headerShown: true,
+        title: "Oberfläche",
+        headerStyle: { backgroundColor: colors.background1 },
+        headerTintColor: colors.text,
+      }}
+    />
+    <Stack.Screen
+      name="Benachrichtigungen"
+      component={NotificationSettingsScreen}
+      options={{
+        headerShown: true,
+        title: "Benachrichtigungen",
+        headerStyle: { backgroundColor: colors.background1 },
+        headerTintColor: colors.text,
+      }}
+    />
+  </Stack.Navigator>
+);
+
+const DrawerScreen = ({ route }) => {
   const handleLogout = route.params?.handleLogout;
+  const user = CurrenUserData[0];
   return (
     <Drawer.Navigator
       drawerContent={(props) => (
         <CustomDrawerContent {...props} handleLogout={handleLogout} />
       )}
+      drawerStyle={{ backgroundColor: colors.background1 }}
       screenOptions={{
         drawerActiveTintColor: colors.text,
         drawerInactiveTintColor: colors.text,
         drawerActiveBackgroundColor: colors.color3T,
         headerTintColor: colors.text,
-        marginTop: 0,
-        borderTopWidth: 0,
-      }}
-      drawerStyle={{
-        marginTop: 0,
-        borderTopWidth: 0,
-        backgroundColor: colors.background1,
       }}
     >
       <Drawer.Screen
         name="Start"
         component={HomeStack}
         options={{
-          drawerIcon: (config) => (
-            <Icon size={25} color={colors.black} name={"home-outline"} />
+          drawerIcon: () => (
+            <Icon name="home-outline" size={25} color={colors.black} />
           ),
         }}
       />
@@ -143,43 +127,40 @@ const DrawerScreen = ({ route, navigation }) => {
         name="Produkte"
         component={ProductsStack}
         options={{
-          drawerIcon: (config) => (
-            <Icon size={25} color={colors.black} name={"cube-outline"} />
+          drawerIcon: () => (
+            <Icon name="cube-outline" size={25} color={colors.black} />
           ),
         }}
       />
-
       <Drawer.Screen
         name="Aufträge"
         component={OrderStack}
         options={{
-          drawerIcon: (config) => (
+          drawerIcon: () => (
             <MaterialIcon
+              name="clipboard-text-outline"
               size={25}
               color={colors.black}
-              name={"clipboard-text-outline"}
             />
           ),
         }}
       />
-
       <Drawer.Screen
         name="Einstellungen"
         component={SettingsStack}
         options={{
-          drawerIcon: (config) => (
-            <Icon size={25} color={colors.black} name={"settings-outline"} />
+          drawerIcon: () => (
+            <Icon name="settings-outline" size={25} color={colors.black} />
           ),
         }}
       />
-
       {user.role === "admin" && (
         <Drawer.Screen
-          name="Mitarbeiter"
-          component={MitarbeiterStack}
+          name="Employees"
+          component={AllUserSettingsScreen}
           options={{
-            drawerIcon: (config) => (
-              <FeatherIcon size={25} color={colors.black} name={"users"} />
+            drawerIcon: () => (
+              <FeatherIcon name="users" size={25} color={colors.black} />
             ),
           }}
         />

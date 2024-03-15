@@ -21,7 +21,7 @@ const MyTheme = {
 const Stack = createStackNavigator();
 
 const App = () => {
-  const [isLogged, setIsLogged] = useState(true);
+  const [isLogged, setIsLogged] = useState(true); //TODO: Auf false Setzen Sonst ist man immer Angemeldet
 
   const handleLogin = () => {
     setIsLogged(true);

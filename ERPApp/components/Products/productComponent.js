@@ -9,20 +9,14 @@ import {
 } from "react-native";
 import colors from "../../assets/color";
 import Icon from "react-native-vector-icons/FontAwesome";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import { getAllProducts, getProduct } from "../../Data/ProductRequest";
+import { getAllProducts } from "../../Data/ProductRequest";
+import { useNavigation } from "@react-navigation/native";
 
-const ProductComponent = ({
-  onEdit,
-  onDelete,
-  onInfo,
-  isProductsUpdated,
-  isSearchVisible,
-}) => {
+const ProductComponent = ({ onInfo, isProductsUpdated, isSearchVisible }) => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-
+  const navigation = useNavigation();
   useEffect(() => {
     fetchProducts();
   }, [isProductsUpdated]);
@@ -37,15 +31,9 @@ const ProductComponent = ({
     }
   };
 
-  const handleEdit = async (id) => {
-    onEdit(id);
-  };
-
-  const handleDelete = async (id) => {
-    onDelete(id);
-  };
-  const handleInfo = async (id) => {
-    onInfo(id);
+  const handleInfo = (product) => {
+    //onInfo(id);
+    navigation.navigate("ProductInfo", { product });
   };
 
   const handleSearch = (text) => {
@@ -73,41 +61,16 @@ const ProductComponent = ({
         data={filteredProducts}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <View style={styles.productItem}>
+          <TouchableOpacity
+            style={styles.productItem}
+            onPress={() => handleInfo(item)}
+          >
             <View style={styles.Items}>
               <Text style={styles.productText}>Product Number: {item.id}</Text>
               <Text style={styles.productText}>Name: {item.name}</Text>
-              <Text style={styles.productText}>Quantity: {item.quantity}</Text>
-              <Text style={styles.productText}>Price: {item.price} €</Text>
-              <Text style={styles.productText}>Type: {item.category}</Text>
             </View>
-            <View style={styles.iconsContainer}>
-              <TouchableOpacity onPress={() => handleEdit(item.id)}>
-                <Icon
-                  style={styles.icon}
-                  name="edit"
-                  size={25}
-                  color={colors.black}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => handleDelete(item.id)}>
-                <Icon
-                  style={[styles.icon, { marginRight: 4 }]}
-                  name="trash"
-                  size={25}
-                  color={colors.black}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => handleInfo(item)}>
-                <Ionicons
-                  style={[styles.icon, { marginRight: 4, marginTop: 60 }]}
-                  name="information-circle-outline"
-                  size={25}
-                  color={colors.black}
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
+            <Icon name="angle-right" size={25} color={colors.black} />
+          </TouchableOpacity>
         )}
       />
     </View>
@@ -151,13 +114,6 @@ const styles = StyleSheet.create({
   },
   Items: {
     flexDirection: "column",
-  },
-  icon: {
-    marginTop: 5,
-  },
-  iconsContainer: {
-    flexDirection: "column",
-    alignItems: "center",
   },
 });
 

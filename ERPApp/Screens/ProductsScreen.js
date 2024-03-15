@@ -10,17 +10,19 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import ComIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import colors from "../assets/color";
 import { getAllProducts } from "../Data/ProductRequest"; // Importiere die getAllProducts-Funktion aus der API-Datei
+import { useNavigation } from "@react-navigation/native";
 
 const ProductsScreen = () => {
   const [isAddModalVisible, setAddModalVisible] = useState(false);
   const [isEditModalVisible, setEditModalVisible] = useState(false);
   const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
-  const [isInfoModalVisible, setInfoModalVisible] = useState(false);
+  const [isInfoModalVisible, setInfoModalVisible] = useState(false); // Zustand für die Anzeige des Info-Popups
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isSearchVisible, setSearchVisible] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const navigation = useNavigation();
 
   const [isProductsUpdated, setIsProductsUpdated] = useState(false);
   const toggleSearch = () => {
@@ -45,15 +47,15 @@ const ProductsScreen = () => {
   const toggleFilter = () => {
     console.log("Toggel Filter");
   };
-  // sort
+
   const toggleSort = () => {
     console.log("Toggel Sort ");
   };
-  // handel Tools
+
   const handleAdd = () => {
     setAddModalVisible(true);
   };
-
+  /*
   const handleEdit = (product) => {
     setSelectedProduct(product);
     setEditModalVisible(true);
@@ -63,16 +65,17 @@ const ProductsScreen = () => {
     setSelectedProduct(product);
     setDeleteModalVisible(true);
   };
-
-  const handleInfo = (product) => {
-    setSelectedProduct(product);
-    setInfoModalVisible(true);
-  };
+  */
 
   const handleEditSave = () => {
     setEditModalVisible(false);
   };
-
+  /*
+  const handleInfo = (product) => {
+    setSelectedProduct(product);
+    navigation.navigate("ProductInfo", { product });
+  };
+*/
   return (
     <View style={ProductStyles.Order}>
       <View style={ProductStyles.toolbox}>
@@ -107,14 +110,11 @@ const ProductsScreen = () => {
       </View>
       <ProductComponent
         products={filteredProducts}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-        onInfo={handleInfo}
+        //   onInfo={handleInfo}
         isProductsUpdated={isProductsUpdated}
         setIsProductsUpdated={setIsProductsUpdated}
         isSearchVisible={isSearchVisible}
       />
-
       <AddProductPopUp
         isVisible={isAddModalVisible}
         onClose={() => {
@@ -140,13 +140,6 @@ const ProductsScreen = () => {
           fetchProducts();
         }}
         productToDelete={selectedProduct}
-      />
-      <ProducktInfoPopUp
-        isVisible={isInfoModalVisible}
-        onClose={() => {
-          setInfoModalVisible(false);
-        }}
-        info={selectedProduct}
       />
     </View>
   );

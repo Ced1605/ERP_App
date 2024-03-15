@@ -44,7 +44,7 @@ const CustomDrawerContent = ({ navigation, handleLogout, ...rest }) => {
             color={colors.black}
             style={{ marginRight: 8 }}
           />
-          <Text style={{ fontSize: 16, color: colors.text }}>Logout</Text>
+          <Text style={styles.logoutText}>Logout</Text>
         </TouchableOpacity>
       </View>
     </DrawerContentScrollView>
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background1,
   },
   userInfo: {
-    marginLeft: 10,
+    marginLeft: 15,
   },
   username: {
     fontSize: 18,
@@ -88,8 +88,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderTopWidth: 1,
     borderTopColor: "lightgray",
-    paddingVertical: 10,
+    paddingVertical: 15,
     marginHorizontal: 16,
+  },
+  logoutText: {
+    fontSize: 16,
+    color: colors.text,
+    marginLeft: 8,
   },
 });
 

@@ -1,5 +1,12 @@
 import React from "react";
-import { View, Text, Modal, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Modal,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+} from "react-native";
 import colors from "../../assets/color";
 import { deleteProduct } from "../../Data/ProductRequest";
 
@@ -15,8 +22,12 @@ const DeleteProductPopUp = ({ isVisible, onClose, productToDelete }) => {
     >
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
+          <Image source={require("../../assets/Icons/warnungIcon.gif")} />
           <Text style={styles.modalTitle}>Product Löschen</Text>
-          <Text>Product {id}</Text>
+          <Text style={{ margin: 10 }}>
+            Möchten sie Produkt {id} Wirklich Löschen Das Produkt wird für lange
+            zeit Verlohren Gehen
+          </Text>
           <View style={styles.buttonContainer}>
             <TouchableOpacity style={styles.button} onPress={onClose}>
               <Text style={styles.buttonText}>Abbrechen</Text>
@@ -63,11 +74,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   buttonContainer: {
+    marginTop: 10,
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
   },
   button: {
-    padding: 10,
+    padding: 8,
     borderRadius: 5,
     backgroundColor: colors.color2,
     marginHorizontal: 5,

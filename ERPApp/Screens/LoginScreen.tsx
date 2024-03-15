@@ -126,8 +126,8 @@ const styles = StyleSheet.create({
     marginBottom: -15,
   },
   LoginInput: {
-    fontSize: 15,
-    padding: 2,
+    fontSize: 18,
+    paddingTop: 10,
     borderBottomWidth: 2,
     marginVertical: 10,
     marginHorizontal: 5,
