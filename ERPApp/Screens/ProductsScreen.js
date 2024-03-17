@@ -2,10 +2,9 @@ import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, TextInput } from "react-native";
 import ProductStyles from "../Styles/ProductStyel";
 import ProductComponent from "../components/Products/productComponent";
-import DeleteProductPopUp from "../components/Products/deleteProductComponenet";
-import EditProductPopUp from "../components/Products/editeProductComponent";
+
 import AddProductPopUp from "../components/Products/addProductComponet";
-import ProducktInfoPopUp from "../components/Products/infoProduct";
+//import ProducktInfoPopUp from "../components/Products/infoProduct";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import ComIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import colors from "../assets/color";
@@ -14,12 +13,11 @@ import { useNavigation } from "@react-navigation/native";
 
 const ProductsScreen = () => {
   const [isAddModalVisible, setAddModalVisible] = useState(false);
-  const [isEditModalVisible, setEditModalVisible] = useState(false);
-  const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
-  const [isInfoModalVisible, setInfoModalVisible] = useState(false); // Zustand für die Anzeige des Info-Popups
-  const [selectedProduct, setSelectedProduct] = useState(null);
+
+  //const [isInfoModalVisible, setInfoModalVisible] = useState(false); // Zustand für die Anzeige des Info-Popups
+  //const [selectedProduct, setSelectedProduct] = useState(null);
   const [isSearchVisible, setSearchVisible] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
+  //const [searchTerm, setSearchTerm] = useState("");
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const navigation = useNavigation();
@@ -32,13 +30,13 @@ const ProductsScreen = () => {
   useEffect(() => {
     fetchProducts();
     setIsProductsUpdated(true);
-  }, [isAddModalVisible, isEditModalVisible, isDeleteModalVisible]);
+  }, [isAddModalVisible]);
 
   const fetchProducts = async () => {
     try {
       const products = await getAllProducts();
       setProducts(products);
-      console.log("load products");
+      console.log("load products Produckt page");
     } catch (error) {
       console.error("Error fetching products:", error);
     }
@@ -65,12 +63,6 @@ const ProductsScreen = () => {
     setSelectedProduct(product);
     setDeleteModalVisible(true);
   };
-  */
-
-  const handleEditSave = () => {
-    setEditModalVisible(false);
-  };
-  /*
   const handleInfo = (product) => {
     setSelectedProduct(product);
     navigation.navigate("ProductInfo", { product });
@@ -110,7 +102,6 @@ const ProductsScreen = () => {
       </View>
       <ProductComponent
         products={filteredProducts}
-        //   onInfo={handleInfo}
         isProductsUpdated={isProductsUpdated}
         setIsProductsUpdated={setIsProductsUpdated}
         isSearchVisible={isSearchVisible}
@@ -122,24 +113,6 @@ const ProductsScreen = () => {
           fetchProducts();
           console.log("save");
         }}
-      />
-      <EditProductPopUp
-        isVisible={isEditModalVisible}
-        onClose={() => {
-          setEditModalVisible(false);
-          fetchProducts();
-          setIsProductsUpdated(true);
-        }}
-        onSave={handleEditSave}
-        productToEdit={selectedProduct}
-      />
-      <DeleteProductPopUp
-        isVisible={isDeleteModalVisible}
-        onClose={() => {
-          setDeleteModalVisible(false);
-          fetchProducts();
-        }}
-        productToDelete={selectedProduct}
       />
     </View>
   );

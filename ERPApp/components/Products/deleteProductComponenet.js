@@ -9,9 +9,11 @@ import {
 } from "react-native";
 import colors from "../../assets/color";
 import { deleteProduct } from "../../Data/ProductRequest";
+import { useNavigation } from "@react-navigation/native";
 
 const DeleteProductPopUp = ({ isVisible, onClose, productToDelete }) => {
   const id = productToDelete;
+  const navigation = useNavigation();
 
   return (
     <Modal
@@ -37,6 +39,7 @@ const DeleteProductPopUp = ({ isVisible, onClose, productToDelete }) => {
               onPress={() => {
                 deleteProduct(parseInt(id));
                 console.log("Confirm Delete Product", id);
+                navigation.navigate("ProductsScreen");
                 onClose();
               }}
             >

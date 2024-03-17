@@ -1,4 +1,5 @@
-import React from "react";
+//Wird nicht mehr gebraucht
+/*import React from "react";
 import { View, Text, Modal, TouchableOpacity, StyleSheet } from "react-native";
 import colors from "../../assets/color";
 
@@ -74,3 +75,4 @@ const styles = StyleSheet.create({
 });
 
 export default EditProductPopUp;
+*/

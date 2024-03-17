@@ -1,26 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import colors from "../../assets/color";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
+import DeleteProductPopUp from "./deleteProductComponenet";
+import { updateProduct } from "../../Data/ProductRequest";
+//import EditProductPopUp from "./editeProductComponent";
 
-const ProductInfoPopUp = ({
-  isVisible,
-  onClose,
-  info,
-  onEdit,
-  onDelete,
-  route,
-}) => {
+const ProductInfoPopUp = ({ onEdit, onDelete, route }) => {
   const navigation = useNavigation();
   const { product } = route.params;
+  const [isEditMode, setEditMode] = useState(false);
+  const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
+  let name, price, category, quantity, shelf, row, info;
+  const updatedProduct = {
+    name: name,
+    price: price,
+    category: category,
+    quantity: quantity,
+    shelf: shelf,
+    row: row,
+    info: info,
+  };
 
   const handleEdit = () => {
-    onEdit(product.id);
+    setEditMode(true);
+  };
+
+  const handleEditSave = async () => {
+    try {
+      await updateProduct(product.id, product);
+      setEditMode(false);
+      console.log("Speichern der Prodcuktes ", product.id);
+    } catch (error) {
+      console.error("Error updating product:", error);
+      // Behandlung von Fehlern hier
+    }
+  };
+  const handleEditCancel = () => {
+    setEditMode(false);
   };
 
   const handleDelete = () => {
-    onDelete(product.id);
+    setDeleteModalVisible(true);
   };
 
   const handleGoBack = () => {
@@ -34,14 +56,32 @@ const ProductInfoPopUp = ({
           <Icon name="chevron-left" size={25} color={colors.black} />
         </TouchableOpacity>
         <Text style={styles.title}>{product.name}</Text>
-        <View style={styles.iconContainer}>
-          <TouchableOpacity onPress={handleEdit} style={styles.iconButton}>
-            <Icon name="edit" size={20} color={colors.black} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={handleDelete} style={styles.iconButton}>
-            <Icon name="trash" size={20} color={colors.black} />
-          </TouchableOpacity>
-        </View>
+        {!isEditMode && (
+          <View style={styles.iconContainer}>
+            <TouchableOpacity onPress={handleEdit} style={styles.iconButton}>
+              <Icon name="edit" size={25} color={colors.black} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleDelete} style={styles.iconButton}>
+              <Icon name="trash" size={25} color={colors.black} />
+            </TouchableOpacity>
+          </View>
+        )}
+        {isEditMode && (
+          <View style={styles.iconContainer}>
+            <TouchableOpacity
+              onPress={handleEditSave}
+              style={styles.iconButton}
+            >
+              <Icon name="save" size={25} color={colors.black} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={handleEditCancel}
+              style={styles.iconButton}
+            >
+              <Icon name="close" size={25} color={colors.black} />
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
       <View style={styles.infoContainer}>
         <Text style={styles.infoText}>
@@ -61,6 +101,15 @@ const ProductInfoPopUp = ({
         <Text style={styles.infoText}>Produktbeschreibung:</Text>
         <Text style={styles.description}>{product.info}</Text>
       </View>
+
+      <DeleteProductPopUp
+        isVisible={isDeleteModalVisible}
+        onClose={() => {
+          setDeleteModalVisible(false);
+          //fetchProducts();
+        }}
+        productToDelete={product.id}
+      />
     </View>
   );
 };
@@ -88,8 +137,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   iconContainer: {
+    flexDirection: "row",
     padding: 5,
     borderRadius: 5,
+    width: 100,
   },
   title: {
     fontSize: 18,

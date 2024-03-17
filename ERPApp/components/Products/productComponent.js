@@ -6,17 +6,24 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
+  Image,
 } from "react-native";
 import colors from "../../assets/color";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { getAllProducts } from "../../Data/ProductRequest";
 import { useNavigation } from "@react-navigation/native";
 
-const ProductComponent = ({ onInfo, isProductsUpdated, isSearchVisible }) => {
+const ProductComponent = ({
+  isProductsUpdated,
+  isSearchVisible,
+  setIsProductsUpdated,
+}) => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [LodingError, setLodingError] = useState(true);
   const navigation = useNavigation();
+
   useEffect(() => {
     fetchProducts();
   }, [isProductsUpdated]);
@@ -25,14 +32,16 @@ const ProductComponent = ({ onInfo, isProductsUpdated, isSearchVisible }) => {
     try {
       const products = await getAllProducts();
       setProducts(products);
-      setFilteredProducts(products); // Initially set filtered products to all products
+      setFilteredProducts(products);
+      setIsProductsUpdated(true); // Setze isProductsUpdated auf true nach dem Laden der Produkte
+      console.log("Products updated");
+      setLodingError(false);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
   };
 
   const handleInfo = (product) => {
-    //onInfo(id);
     navigation.navigate("ProductInfo", { product });
   };
 
@@ -46,6 +55,24 @@ const ProductComponent = ({ onInfo, isProductsUpdated, isSearchVisible }) => {
     );
     setFilteredProducts(filtered);
   };
+
+  if (products.length === 0) {
+    setTimeout(() => {
+      setLodingError(false);
+    }, 4000);
+    return (
+      <View style={styles.noProductsContainer}>
+        {LodingError ? (
+          <Image
+            source={require("../../assets/Icons/loadingLight.gif")}
+            style={styles.noProductsImage}
+          />
+        ) : (
+          <Text>Fehler Beim Laden der Produkte</Text>
+        )}
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -114,6 +141,17 @@ const styles = StyleSheet.create({
   },
   Items: {
     flexDirection: "column",
+  },
+  noProductsImage: {
+    width: 80,
+    height: 80,
+    backgroundColor: "#00000000",
+  },
+  noProductsContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "transparent",
   },
 });
 
