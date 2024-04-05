@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   TextInput,
   Image,
+  ActivityIndicator,
 } from "react-native";
 import colors from "../../assets/color";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -63,10 +64,7 @@ const ProductComponent = ({
     return (
       <View style={styles.noProductsContainer}>
         {LodingError ? (
-          <Image
-            source={require("../../assets/Icons/loadingLight.gif")}
-            style={styles.noProductsImage}
-          />
+          <ActivityIndicator size="80" color={colors.black} />
         ) : (
           <Text>Fehler Beim Laden der Produkte</Text>
         )}

@@ -16,6 +16,21 @@ const getProduct = async (id) => {
   }
 };
 
+// GET-Anfrage
+const getAllProducts = async () => {
+  try {
+    const response = await fetch(BASE_URL);
+    if (!response.ok) {
+      throw new Error("Failed to fetch products");
+    }
+    const products = await response.json();
+    return products;
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    throw error;
+  }
+};
+
 // DELETE-Anfrage
 const deleteProduct = async (id) => {
   try {
@@ -48,21 +63,6 @@ const updateProduct = async (id, updatedProduct) => {
     console.log("Product updated successfully");
   } catch (error) {
     console.error("Error updating product:", error);
-    throw error;
-  }
-};
-
-// GET-Anfrage
-const getAllProducts = async () => {
-  try {
-    const response = await fetch(BASE_URL);
-    if (!response.ok) {
-      throw new Error("Failed to fetch products");
-    }
-    const products = await response.json();
-    return products;
-  } catch (error) {
-    console.error("Error fetching products:", error);
     throw error;
   }
 };
