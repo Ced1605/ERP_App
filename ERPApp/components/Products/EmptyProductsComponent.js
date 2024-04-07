@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
 import colors from "../../assets/color";
+import { getAllProducts } from "../../Data/ProductRequest";
 
 const EmptyProductMonitorComponent = () => {
   const [products, setProducts] = useState([]);
@@ -9,18 +10,9 @@ const EmptyProductMonitorComponent = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Hier API-Anfrage durchführen, um die Produktliste zu erhalten
-        // Beispiel: const response = await fetch("API_ENDPOINT");
-        // const data = await response.json();
-        // setProducts(data.products);
-
-        // Beispiel Daten
-        const staticProducts = [
-          { id: 1, name: "Produkt A", quantity: 1 },
-          { id: 2, name: "Produkt B", quantity: 3 },
-          { id: 3, name: "Produkt C", quantity: 1 },
-        ];
-        setProducts(staticProducts);
+        const fetchedProduct = await getAllProducts();
+        setProducts(fetchedProduct);
+        console.info("Product updated:");
         setLoading(false); // Daten wurden geladen
       } catch (error) {
         console.error("Fehler beim Abrufen der Produktdaten:", error);
@@ -32,13 +24,13 @@ const EmptyProductMonitorComponent = () => {
     fetchData();
   }, []);
 
-  const lowQuantityProducts = products.filter(
-    (product) => product.quantity < 2
-  );
-
-  if (loading) {
+  if (loading || !products) {
     return <Text>Lade Produktinformationen...</Text>;
   }
+
+  const lowQuantityProducts = products.filter(
+    (product) => product.quantity <= 2
+  );
 
   return (
     <View style={styles.container}>

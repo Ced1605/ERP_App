@@ -1,72 +1,49 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, TextInput } from "react-native";
 import OrderStyles from "../Styles/OrderStyle";
-import CurrentOrdersComponent from "../components/Order/OrderComponent";
+import OrdersComponent from "../components/Order/OrderComponent";
 import AddOrderPopUp from "../components/Order/addOrderComponent";
-import EditOrderPopUp from "../components/Order/editOrderComponent";
-import orders from "../Data/OrderData";
-import DeleteOrderPopUp from "../components/Order/deletOrderComponenet";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import ComIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import colors from "../assets/color";
+import { getAllOrders } from "../Data/OrderRequest";
 
 const OrderScreen = () => {
   const [isAddModalVisible, setAddModalVisible] = useState(false);
-  const [isEditModalVisible, setEditModalVisible] = useState(false);
-  const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
-  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [isOrdersUpdated, setIsOrdersUpdated] = useState(false);
+  const [filteredOrders, setFilteredOrders] = useState([]);
+  const [order, setOrder] = useState([]);
   const [isSearchVisible, setSearchVisible] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filteredOrder, setFilteredOrder] = useState(orders);
 
-  //filter
   const toggleSearch = () => {
     setSearchVisible(!isSearchVisible);
   };
+
   useEffect(() => {
-    const filtered = orders.filter(
-      (item) =>
-        item.customer.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.id.toString().includes(searchTerm)
-    );
-    setFilteredOrder(filtered);
-  }, [searchTerm, orders]);
+    fetchOrder();
+    setIsOrdersUpdated(true);
+  }, []);
+
+  const fetchOrder = async () => {
+    try {
+      const orders = await getAllOrders();
+      setOrder(orders);
+      console.log("Orders updated");
+    } catch (error) {
+      console.error("Error fetching order:", error);
+    }
+  };
 
   const toggleFilter = () => {
     console.log("Toggel Filter");
   };
-  // sort
+
   const toggleSort = () => {
     console.log("Toggel Sort ");
   };
 
   const handleAdd = () => {
     setAddModalVisible(true);
-  };
-
-  const handleEdit = (order) => {
-    console.log("Selected Order:", order);
-    setSelectedOrder(order);
-    setEditModalVisible(true);
-  };
-  const handleDelete = (order) => {
-    console.log("Delete Order:", order);
-    setSelectedOrder(order);
-    setDeleteModalVisible(true);
-  };
-
-  const handleEditSave = () => {
-    setEditModalVisible(false);
-  };
-
-  const handleAddSave = (newOrder) => {
-    // Hier können Sie die Logik für das Speichern des neuen Auftrags implementieren
-    console.log("Speichern des neuen Auftrags", newOrder);
-    setAddModalVisible(false);
-  };
-
-  const handleDeliteConfirm = () => {
-    console.log("delet");
   };
 
   return (
@@ -101,35 +78,19 @@ const OrderScreen = () => {
           </TouchableOpacity>
         </View>
       </View>
-      {isSearchVisible && (
-        <TextInput
-          style={OrderStyles.searchInput}
-          placeholder="Suchen..."
-          placeholderTextColor={colors.text}
-          onChangeText={(text) => setSearchTerm(text)}
-        />
-      )}
-      <CurrentOrdersComponent
-        orders={filteredOrder}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
+      <OrdersComponent
+        orders={filteredOrders}
+        setIsOrdersUpdated={setIsOrdersUpdated}
+        isOrdersUpdated={isOrdersUpdated}
+        isSearchVisible={isSearchVisible}
       />
-
       <AddOrderPopUp
         isVisible={isAddModalVisible}
-        onClose={() => setAddModalVisible(false)}
-        onSave={handleAddSave}
-      />
-      <EditOrderPopUp
-        isVisible={isEditModalVisible}
-        onClose={() => setEditModalVisible(false)}
-        onSave={handleEditSave}
-        orderToEdit={selectedOrder}
-      />
-      <DeleteOrderPopUp
-        isVisible={isDeleteModalVisible}
-        onClose={() => setDeleteModalVisible(false)}
-        orderToDelete={selectedOrder}
+        onClose={() => {
+          setAddModalVisible(false);
+          fetchOrder();
+          console.log(" OrderScreen: save Order");
+        }}
       />
     </View>
   );

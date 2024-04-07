@@ -4,16 +4,6 @@ import colors from "../../assets/color";
 import CheckBox from "react-native-check-box";
 
 const HomeOrdersComponent = ({ orders }) => {
-  const [checkedItems, setCheckedItems] = useState(
-    Array(orders.length).fill(false)
-  );
-
-  const handleCheckBoxClick = (index) => {
-    const newCheckedItems = [...checkedItems];
-    newCheckedItems[index] = !newCheckedItems[index];
-    setCheckedItems(newCheckedItems);
-  };
-
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Aktuelle Aufträge</Text>

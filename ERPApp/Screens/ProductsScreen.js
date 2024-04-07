@@ -13,16 +13,14 @@ import { useNavigation } from "@react-navigation/native";
 
 const ProductsScreen = () => {
   const [isAddModalVisible, setAddModalVisible] = useState(false);
-
-  //const [isInfoModalVisible, setInfoModalVisible] = useState(false); // Zustand für die Anzeige des Info-Popups
-  //const [selectedProduct, setSelectedProduct] = useState(null);
   const [isSearchVisible, setSearchVisible] = useState(false);
-  //const [searchTerm, setSearchTerm] = useState("");
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const navigation = useNavigation();
-
   const [isProductsUpdated, setIsProductsUpdated] = useState(false);
+  //const navigation = useNavigation();
+  //const [searchTerm, setSearchTerm] = useState("");
+  //const [isInfoModalVisible, setInfoModalVisible] = useState(false); // Zustand für die Anzeige des Info-Popups
+  //const [selectedProduct, setSelectedProduct] = useState(null);
   const toggleSearch = () => {
     setSearchVisible(!isSearchVisible);
   };
@@ -53,21 +51,6 @@ const ProductsScreen = () => {
   const handleAdd = () => {
     setAddModalVisible(true);
   };
-  /*
-  const handleEdit = (product) => {
-    setSelectedProduct(product);
-    setEditModalVisible(true);
-  };
-
-  const handleDelete = (product) => {
-    setSelectedProduct(product);
-    setDeleteModalVisible(true);
-  };
-  const handleInfo = (product) => {
-    setSelectedProduct(product);
-    navigation.navigate("ProductInfo", { product });
-  };
-*/
   return (
     <View style={ProductStyles.Order}>
       <View style={ProductStyles.toolbox}>
@@ -111,7 +94,7 @@ const ProductsScreen = () => {
         onClose={() => {
           setAddModalVisible(false);
           fetchProducts();
-          console.log("save");
+          console.log("ProductScreen: save Product");
         }}
       />
     </View>

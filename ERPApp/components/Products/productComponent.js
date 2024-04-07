@@ -6,11 +6,11 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
-  Image,
   ActivityIndicator,
 } from "react-native";
 import colors from "../../assets/color";
 import Icon from "react-native-vector-icons/FontAwesome";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { getAllProducts } from "../../Data/ProductRequest";
 import { useNavigation } from "@react-navigation/native";
 
@@ -39,6 +39,7 @@ const ProductComponent = ({
       setLodingError(false);
     } catch (error) {
       console.error("Error fetching products:", error);
+      setLodingError(true);
     }
   };
 
@@ -60,13 +61,27 @@ const ProductComponent = ({
   if (products.length === 0) {
     setTimeout(() => {
       setLodingError(false);
-    }, 4000);
+    }, 10000);
     return (
       <View style={styles.noProductsContainer}>
         {LodingError ? (
           <ActivityIndicator size="80" color={colors.black} />
         ) : (
-          <Text>Fehler Beim Laden der Produkte</Text>
+          <View style={{ alignItems: "center" }}>
+            <Text>Fehler Beim Laden der Produkte</Text>
+            <TouchableOpacity
+              onPress={() => {
+                setLodingError(true);
+                fetchProducts();
+              }}
+            >
+              <MaterialCommunityIcons
+                name="reload"
+                size={30}
+                color={colors.black}
+              />
+            </TouchableOpacity>
+          </View>
         )}
       </View>
     );
@@ -139,11 +154,6 @@ const styles = StyleSheet.create({
   },
   Items: {
     flexDirection: "column",
-  },
-  noProductsImage: {
-    width: 80,
-    height: 80,
-    backgroundColor: "#00000000",
   },
   noProductsContainer: {
     flex: 1,

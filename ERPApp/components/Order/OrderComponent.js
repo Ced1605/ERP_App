@@ -5,89 +5,117 @@ import {
   FlatList,
   StyleSheet,
   TouchableOpacity,
+  ActivityIndicator,
+  TextInput,
 } from "react-native";
 import colors from "../../assets/color";
-import CheckBox from "react-native-check-box";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { text } from "@fortawesome/fontawesome-svg-core";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { getAllOrders } from "../../Data/OrderRequest";
+import { useNavigation } from "@react-navigation/native";
+import DateComponent from "../function/DateComponent";
 
-const CurrentOrdersComponent = ({ orders, onEdit, onDelete }) => {
-  const [checkedItems, setCheckedItems] = useState(
-    Array(orders.length).fill(false)
-  );
-  const handleCheckBoxClick = (index) => {
-    const newCheckedItems = [...checkedItems];
-    newCheckedItems[index] = !newCheckedItems[index];
-    setCheckedItems(newCheckedItems);
-  };
+const ordersComponent = ({
+  isOrderUpdated,
+  isSearchVisible,
+  setIsOrdersUpdated,
+}) => {
+  const [order, setOrder] = useState([]);
+  const [filteredOrders, setFilteredOrders] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [LodingError, setLodingError] = useState(true);
+  const navigation = useNavigation();
 
-  //sort and filter date
-  const [filteredOrders, setFilteredOrders] = useState(orders);
   useEffect(() => {
-    const oneWeekAgo = new Date();
-    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+    fetchOrder();
+  }, [isOrderUpdated]);
 
-    const sortedOrders = orders.sort(
-      (a, b) =>
-        new Date(
-          `20${b.date.slice(6, 8)}-${b.date.slice(3, 5)}-${b.date.slice(0, 2)}`
-        ) -
-        new Date(
-          `20${a.date.slice(6, 8)}-${a.date.slice(3, 5)}-${a.date.slice(0, 2)}`
-        )
+  const fetchOrder = async () => {
+    try {
+      const orders = await getAllOrders();
+      setOrder(orders);
+      setFilteredOrders(orders);
+      setIsOrdersUpdated(true);
+      console.log("Orders updated");
+      setLodingError(false);
+    } catch (error) {
+      console.error("Error fetching order:", error);
+    }
+  };
+
+  const handleInfo = (order) => {
+    navigation.navigate("OrderInfo", { order });
+  };
+
+  const handleSearch = (text) => {
+    setSearchTerm(text);
+    const filtered = order.filter(
+      (item) =>
+        item.id.toString().includes(text) ||
+        (
+          item.userName.toLowerCase() +
+          " " +
+          item.userLastName.toLowerCase()
+        ).includes(text.toLowerCase())
     );
-    setFilteredOrders(sortedOrders);
-  }, [orders]);
-
-  //Tools
-  const handleEdit = (index) => {
-    onEdit(orders[index].id);
+    setFilteredOrders(filtered);
   };
 
-  const handleDelet = (index) => {
-    onDelete(orders[index].id);
-  };
+  if (order.length === 0) {
+    setTimeout(() => {
+      setLodingError(false);
+    }, 10000);
+    return (
+      <View style={styles.noOrdersContainer}>
+        {LodingError ? (
+          <ActivityIndicator size="80" color={colors.black} />
+        ) : (
+          <View style={{ alignItems: "center" }}>
+            <Text>Fehler Beim Laden der Aufträge</Text>
+            <TouchableOpacity
+              onPress={() => {
+                setLodingError(true);
+                fetchOrder();
+              }}
+            >
+              <MaterialCommunityIcons
+                name="reload"
+                size={30}
+                color={colors.black}
+              />
+            </TouchableOpacity>
+          </View>
+        )}
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
+      {isSearchVisible && (
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search..."
+          placeholderTextColor={colors.text}
+          onChangeText={handleSearch}
+        />
+      )}
       <Text style={styles.header}>Aktuelle Aufträge</Text>
       <View style={styles.listContainer}>
         <FlatList
           data={filteredOrders}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item, index }) => (
-            <View style={styles.orderItem}>
+            <TouchableOpacity style={styles.orderItem} onPress={null}>
               <View style={styles.Item}>
                 <Text style={styles.orderText}>Auftragsnummer: {item.id}</Text>
-                <Text style={styles.orderText}>Kunde: {item.customer}</Text>
-                <Text style={styles.orderText}>Produkt: {item.product}</Text>
-                <Text style={styles.orderText}>Menge: {item.quantity}</Text>
-                <Text style={styles.orderText}>Datum: {item.date}</Text>
+                <Text style={styles.orderText}>
+                  Kunde: {item.userName} {item.userLastName}
+                </Text>
+                <DateComponent date={item.date} style={styles.orderText} />
               </View>
-              <View style={styles.iconsContainer}>
-                <CheckBox
-                  style={[styles.checkbox, { height: 30, width: 30 }]}
-                  onClick={() => handleCheckBoxClick(index)}
-                  isChecked={checkedItems[index]}
-                />
-                <TouchableOpacity onPress={() => handleEdit(index)}>
-                  <Icon
-                    style={styles.icon}
-                    name="edit"
-                    size={25}
-                    color={colors.text}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => handleDelet(index)}>
-                  <Icon
-                    style={[styles.icon, { marginRight: 4 }]}
-                    name="trash"
-                    size={25}
-                    color={colors.text}
-                  />
-                </TouchableOpacity>
-              </View>
-            </View>
+              <Icon name="angle-right" size={25} color={colors.black} />
+            </TouchableOpacity>
           )}
         />
       </View>
@@ -100,6 +128,14 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     backgroundColor: colors.background1,
+  },
+  searchInput: {
+    marginBottom: 10,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: colors.text,
+    borderRadius: 5,
+    color: colors.text,
   },
   header: {
     fontSize: 20,
@@ -132,19 +168,15 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     color: colors.text,
   },
-  checkbox: {
-    marginTop: 20,
-  },
   Item: {
     flexDirection: "column",
   },
-  icon: {
-    marginTop: 5,
-  },
-  iconsContainer: {
-    flexDirection: "column",
+  noOrdersContainer: {
+    flex: 1,
+    justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "transparent",
   },
 });
 
-export default CurrentOrdersComponent;
+export default ordersComponent;

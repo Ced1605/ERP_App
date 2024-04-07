@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -6,28 +6,53 @@ import {
   Modal,
   TouchableOpacity,
   StyleSheet,
+  Dimensions,
 } from "react-native";
 import colors from "../../assets/color";
+import { addOrder } from "../../Data/OrderRequest";
+import { Dropdown } from "react-native-element-dropdown";
+import { getAllUsers } from "../../Data/UserRequest";
 
-const AddOrderPopUp = ({ isVisible, onClose, onSave }) => {
-  const [id, setId] = useState("");
-  const [customer, setCustomer] = useState("");
-  const [product, setProduct] = useState("");
-  const [quantity, setQuantity] = useState("");
+const AddOrderPopUp = ({ isVisible, onClose }) => {
+  const [userId, setUserId] = useState("");
+  const [info, setInfo] = useState("");
+  const [users, setUsers] = useState([]);
 
-  const handleSave = () => {
-    const newOrder = {
-      id: id,
-      customer: customer,
-      product: product,
-      quantity: quantity,
-    };
-    onSave(newOrder);
-    setId("");
-    setCustomer("");
-    setProduct("");
-    setQuantity("");
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const fetchUsers = async () => {
+    try {
+      const usersData = await getAllUsers();
+      setUsers(usersData);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
   };
+
+  const handleSave = async () => {
+    try {
+      const timestamp = new Date().toISOString();
+      const newOrder = {
+        userId: parseInt(userId),
+        date: timestamp,
+        info: info,
+        status: "inProgress",
+      };
+      await addOrder(newOrder);
+      setInfo("");
+      setUserId("");
+      onClose();
+    } catch (error) {
+      console.error("Error adding Order", error);
+    }
+  };
+
+  const data = users.map((user) => ({
+    label: `${user.name} ${user.lastName}`,
+    value: user.id,
+  }));
 
   return (
     <Modal
@@ -39,29 +64,30 @@ const AddOrderPopUp = ({ isVisible, onClose, onSave }) => {
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
           <Text style={styles.modalTitle}>Auftrag Hinzufügen</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="id"
-            value={id}
-            onChangeText={(text) => setId(text)}
+          <Dropdown
+            style={styles.dropdown}
+            placeholderStyle={styles.placeholderStyle}
+            selectedTextStyle={styles.selectedTextStyle}
+            inputSearchStyle={styles.inputSearchStyle}
+            iconStyle={styles.iconStyle}
+            data={data}
+            search
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
+            placeholder="Kunde"
+            searchPlaceholder="Search..."
+            value={userId}
+            onChange={(item) => {
+              setUserId(item.value);
+            }}
           />
           <TextInput
             style={styles.input}
-            placeholder="Customer"
-            value={customer}
-            onChangeText={(text) => setCustomer(text)}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Product"
-            value={product}
-            onChangeText={(text) => setProduct(text)}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Mänge"
-            value={quantity}
-            onChangeText={(text) => setQuantity(text)}
+            placeholder="Info"
+            placeholderTextColor={colors.text}
+            value={info}
+            onChangeText={(text) => setInfo(text)}
           />
           <View style={styles.buttonContainer}>
             <TouchableOpacity style={styles.button} onPress={onClose}>
@@ -97,10 +123,13 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
+    width: Dimensions.get("window").width - 100,
     borderColor: "gray",
     borderWidth: 1,
+    borderRadius: 8,
     marginBottom: 20,
     paddingHorizontal: 10,
+    color: colors.text,
   },
   buttonContainer: {
     flexDirection: "row",
@@ -115,6 +144,37 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontWeight: "bold",
+  },
+
+  dropdown: {
+    height: 40,
+    width: Dimensions.get("window").width - 100,
+    borderColor: "gray",
+    borderWidth: 1,
+    borderRadius: 8,
+    marginBottom: 20,
+    paddingHorizontal: 10,
+    color: colors.text,
+  },
+  item: {
+    padding: 17,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  textItem: {
+    flex: 1,
+    fontSize: 16,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
   },
 });
 

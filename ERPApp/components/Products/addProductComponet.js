@@ -58,7 +58,7 @@ const AddProductPopUp = ({ isVisible, onClose, onProductsUpdate }) => {
     >
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
-          <Text style={styles.modalTitle}>Auftrag Hinzufügen</Text>
+          <Text style={styles.modalTitle}>Produkt Hinzufügen</Text>
           <TextInput
             style={styles.input}
             placeholder="Name"

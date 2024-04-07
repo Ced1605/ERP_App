@@ -50,6 +50,7 @@ const HomeStyles = StyleSheet.create({
     borderRadius: 15,
     backgroundColor: colors.background1,
     margin: 5,
+    paddingBottom: 10,
   },
 });
 
