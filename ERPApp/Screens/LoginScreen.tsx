@@ -12,7 +12,7 @@ import { Ionicons } from "@expo/vector-icons";
 import colors from "../assets/color";
 import { login } from "../Data/LoginRequest";
 import updateUserData from "../components/function/UpdateUserData";
-import GetLoginUserData from "../components/function/GetUserDateAfterLogin";
+import GetLoginUserData from "../components/function/GetUserDataAfterLogin";
 
 const LoginScreen = ({ route, navigation }) => {
   const [name, setUserName] = useState("");

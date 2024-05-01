@@ -11,22 +11,32 @@ class DateComponent extends React.Component {
     const formattedDate = new Date(date);
 
     // Array von Wochentagen
-    const daysOfWeek = [
-      "Sonntag",
-      "Montag",
-      "Dienstag",
-      "Mittwoch",
-      "Donnerstag",
-      "Freitag",
-      "Samstag",
+    const daysOfWeek = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
+
+    // Array von Monaten
+    const months = [
+      "Jan",
+      "Feb",
+      "Mär",
+      "Apr",
+      "Mai",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Okt",
+      "Nov",
+      "Dez",
     ];
 
-    // Extrahiere den Wochentag und das Datum
+    // Extrahiere den Wochentag, Tag, Monat und Jahr
     const dayName = daysOfWeek[formattedDate.getDay()]; // Tag als Name
     const day = formattedDate.getDate(); // Tag im Monat
+    const monthName = months[formattedDate.getMonth()]; // Monat als Name
+    const year = formattedDate.getFullYear().toString().slice(-2); // Jahr
 
-    // Kombiniere den Tag und das Datum
-    const formattedDateString = `${dayName}, ${day}`;
+    // Kombiniere den Tag, Monat und Jahr
+    const formattedDateString = `${dayName}, ${day}. ${monthName} ${year}`;
 
     return <Text style={style}>{formattedDateString}</Text>;
   }

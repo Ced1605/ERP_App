@@ -13,6 +13,7 @@ import ProductsScreen from "./ProductsScreen";
 import SettingsScreen from "./SettingsScreen";
 import AllUserSettingsScreen from "./AllUserScreen";
 import ProducktInfoPopUp from "../components/Products/infoProduct";
+import OrderInfoPopUp from "../components/Order/infoOrder";
 //Settings Screens
 import UserSettingsScreen from "./SettingScreens/UserSettingsScreen";
 import InterfaceSettingsScreen from "./SettingScreens/InterfaceSettingsScreen";
@@ -38,6 +39,11 @@ const OrderStack = () => (
     <Stack.Screen
       name="OrderScreen"
       component={OrderScreen}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      name="OrderInfo"
+      component={OrderInfoPopUp}
       options={{ headerShown: false }}
     />
   </Stack.Navigator>

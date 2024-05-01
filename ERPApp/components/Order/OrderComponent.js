@@ -14,7 +14,6 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import { getAllOrders } from "../../Data/OrderRequest";
 import { useNavigation } from "@react-navigation/native";
 import DateComponent from "../function/DateComponent";
-
 const ordersComponent = ({
   isOrderUpdated,
   isSearchVisible,
@@ -36,7 +35,8 @@ const ordersComponent = ({
       setOrder(orders);
       setFilteredOrders(orders);
       setIsOrdersUpdated(true);
-      console.log("Orders updated");
+      console.log("OrderComponnet updated Order ");
+      console.log(orders);
       setLodingError(false);
     } catch (error) {
       console.error("Error fetching order:", error);
@@ -106,13 +106,29 @@ const ordersComponent = ({
           data={filteredOrders}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item, index }) => (
-            <TouchableOpacity style={styles.orderItem} onPress={null}>
+            <TouchableOpacity
+              style={styles.orderItem}
+              onPress={() => handleInfo(item)}
+            >
               <View style={styles.Item}>
-                <Text style={styles.orderText}>Auftragsnummer: {item.id}</Text>
-                <Text style={styles.orderText}>
-                  Kunde: {item.userName} {item.userLastName}
-                </Text>
-                <DateComponent date={item.date} style={styles.orderText} />
+                <View
+                  style={{
+                    width: 5,
+                    height: "auto",
+                    marginRight: 10,
+                    backgroundColor:
+                      item.status == "complete" ? "green" : "red",
+                  }}
+                ></View>
+                <View>
+                  <Text style={styles.orderText}>
+                    Auftragsnummer: {item.id}
+                  </Text>
+                  <Text style={styles.orderText}>
+                    Kunde: {item.userName} {item.userLastName}
+                  </Text>
+                  <DateComponent date={item.date} style={styles.orderText} />
+                </View>
               </View>
               <Icon name="angle-right" size={25} color={colors.black} />
             </TouchableOpacity>
@@ -169,7 +185,7 @@ const styles = StyleSheet.create({
     color: colors.text,
   },
   Item: {
-    flexDirection: "column",
+    flexDirection: "row",
   },
   noOrdersContainer: {
     flex: 1,
